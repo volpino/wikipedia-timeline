@@ -16,6 +16,9 @@ var counter;
 var lowerlimit;
 var timedelta = 15552000;
 var interval = 5;
+var show_tips = false;
+var speeds = ["Really slow", "Slow", "Normal", "Fast", "Really fast"];
+var curr_speed = parseInt(speeds.length / 2);
 
 var defaultStyle = new OpenLayers.Style({
                             graphicName: "circle",
@@ -66,6 +69,11 @@ function clearMap() {
         map.setCenter(new OpenLayers.LonLat(0, 0), 2);
     }
     interval = 5;
+    curr_speed = parseInt(speeds.length / 2);
+    updateSpeed();
+    $('#search1').removeBubbletip();
+    $('#search').removeBubbletip();
+    $('#source').removeBubbletip();
 }
 
 function resetPlay() {
@@ -345,11 +353,29 @@ function initmap(seconds) {
         if (past_seconds - firstedit > 0) {
             $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
         }
-        //animateBar();
+
         if (!seconds) {
-            setTimeout("togglePlay();",1000);
+            setTimeout("togglePlay();", 1000);
+        }
+
+        if (show_tips) {
+            setTimeout("mapTips();", 2000);
         }
     });
+}
+
+function mapTips() {
+    $('#search').bubbletip($('#tip_search_page'), {
+        deltaDirection: 'down',
+        bindShow: 'focus',
+        bindHide: 'blur'
+    });
+    $('#search').trigger('focus');
+
+    $('#source').bubbletip($('#tip_links'));
+    $('#source').trigger('mouseover');
+
+    show_tips = false;
 }
 
 function startSearch() {
@@ -456,8 +482,12 @@ function fasterAnimation() {
         $(this).css({'width':'100px','height':'100px','margin-left':'-50px','margin-top':'-50px','opacity':'1','display':'none'});
     });
     $elem.parent().append($elem);
-    if (interval <= 25) {
-        interval += 5;
+    if (interval < 15) {
+        interval += 2;
+        if (curr_speed < speeds.length-1) {
+        }
+        curr_speed++;
+        updateSpeed();
         if (timerId) {
             stopBar();
             animateBar();
@@ -473,11 +503,10 @@ function slowerAnimation() {
         $(this).css({'width':'100px','height':'100px','margin-left':'-50px','margin-top':'-50px','opacity':'1','display':'none'});
     });
     $elem.parent().append($elem);
-    if (interval >= 10) {
-        interval -= 5;
-    }
-    else {
-        interval = 1;
+    if (interval >= 3) {
+        interval -= 2;
+        curr_speed--;
+        updateSpeed();
     }
     if (timerId) {
         stopBar();
@@ -485,9 +514,24 @@ function slowerAnimation() {
     }
 }
 
+function updateSpeed() {
+    var i;
+    if (curr_speed >= speeds.length) {
+        i = speeds.length - 1;
+    }
+    else if (curr_speed < 0) {
+        i = 0;
+    }
+    else {
+        i = curr_speed;
+    }
+    $("#curr_speed").html(speeds[i]);
+}
+
 function getPermalink() {
     var d = document.location.href;
-    var current_url = d.substring(0, d.lastIndexOf('#'))+"#|"+main_lang()+"|"+encodeURI(article_name)+"|"+past_seconds;
+    var inc = $("#incremental").attr("checked") ? 1 : 0;
+    var current_url = d.substring(0, d.lastIndexOf('#'))+"#|"+main_lang()+"|"+encodeURI(article_name)+"|"+past_seconds+"|"+inc;
     var msg = "<p>This is the permalink for this page<p>" +
               "<textarea readonly='readonly'>" + current_url +
               "</textarea>" +
@@ -554,6 +598,14 @@ $(document).ready(function () {
     $.History.bind(function(state) {
         var states = state.split("|");
         if (states.length >= 4) {
+            if (states.length == 5) {
+                if (states[4] == 1) {
+                    $("#incremental").attr("checked", true);
+                }
+                else {
+                    $("#incremental").attr("checked", false);
+                }
+            }
             $("#search_page").hide(0);
             var seconds = parseInt(states[3]);
             var lang = states[1];
@@ -581,6 +633,20 @@ $(document).ready(function () {
             $("#search_page").show("fast");
         }
     });
+
+    if ($.cookie("visited_timeline") !== "true") {
+        $.cookie("visited_timeline", "true", {expires: 60*60*24});
+        show_tips = true;
+    }
+    show_tips = true;
+    if (show_tips && !window.location.hash) {
+        $('#search1').bubbletip($('#tip_search_page'), {
+            deltaDirection: 'right',
+            bindShow: 'focus',
+            bindHide: 'blur'
+        });
+        $('#search1').trigger('focus');
+    }
 
     $.share_bar();
 

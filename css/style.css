@@ -35,7 +35,7 @@ div#search_page {
     width: 100%;
     position: fixed;
     background-color: #FFFFFF;
-    z-index: 100;
+    z-index: 20;
     display: none;
 }
 
@@ -81,7 +81,7 @@ div#loading {
     background-image: url("../images/loading.gif");
     background-repeat: no-repeat;
     background-position: center center;
-    z-index: 99;
+    z-index: 10;
 }
 
 div#main_page {
@@ -173,11 +173,20 @@ a.button {
     border-bottom: 1px solid rgba(0,0,0,0.25);
     float:right;
     cursor: pointer;
-    z-index:99;
+    z-index:1;
 }
 
 a.button:hover {
     background-color: #111; color: #fff;
+}
+
+#speed {
+    float: right;
+    margin-right: 10px;
+    margin-left: 15px;
+    margin-top: 4px;
+    font-size: 11px;
+    width: 130px;
 }
 
 #source {
@@ -220,7 +229,7 @@ textarea {
   -moz-box-shadow: -3px -3px 3px rgba(0,0,0,0.5);
   -webkit-box-shadow: -3px -3px 3px rgba(0,0,0,0.5);
   box-shadow: -3px -3px 3px rgba(0,0,0,0.5);
-  }
+}
 
 #socializethis a{
   float:left;
@@ -237,3 +246,10 @@ textarea {
   font-size:12px;
 }
 
+.tip {
+    display: none;
+}
+
+.bubbletip {
+    z-index: 9999;
+}
