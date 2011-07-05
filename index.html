@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+        <title>Wikipedia edits timeline</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css" />
+        <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.13.custom.css" type="text/css" />
+        <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.jqplot.min.css" />
+        <script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
+        <script src="lib/jquery-1.4.4.min.js" type="text/javascript"></script>
+        <script src="lib/jquery-ui-1.8.13.custom.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="lib/jquery.autocomplete.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.history.js"></script>
+        <!--[if lt IE 9]><script type="text/javascript" src="lib/excanvas.min.js"></script><![endif]-->
+        <script type="text/javascript" src="lib/jquery.jqplot.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.canvasTextRenderer.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.canvasAxisLabelRenderer.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.dateAxisRenderer.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.highlighter.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.cursor.min.js"></script>
+        <link href="facebox/facebox.css" media="screen" rel="stylesheet" type="text/css"/>
+        <script src="facebox/facebox.js" type="text/javascript"></script>
+        <script type="text/javascript" src="timeline.js"></script>
+
+    </head>
+    <body onload="onLoad()">
+        <div id="search_page">
+            <div id="sp_content">
+                <h1 id="page_title">Wikipedia edits timeline</h1>
+                <p>Search a Wikipedia article and know who edited anonymously!</p>
+                <select id="lang_select1" name="lang_select1">
+                    <option value="en">English Wikipedia</option>
+                    <option value="fr">French Wikipedia</option>
+                    <option value="es">Spanish Wikipedia</option>
+                    <option value="it">Italian Wikipedia</option>
+                    <option value="de">German Wikipedia</option>
+                    <option value="zh">Chinese Wikipedia</option>
+                    <option value="ar">Arabic Wikipedia</option>
+                    <option value="da">Danish Wikipedia</option>
+                    <option value="nl">Dutch Wikipedia</option>
+                    <option value="af">Afrikaans Wikipedia</option>
+                    <option value="sq">Albanian Wikipedia</option>
+                    <option value="be">Belarusian Wikipedia</option>
+                    <option value="bg">Bulgarian Wikipedia</option>
+                    <option value="ca">Catalan Wikipedia</option>
+                    <option value="hr">Croatian Wikipedia</option>
+                    <option value="cs">Czech Wikipedia</option>
+                    <option value="et">Estonian Wikipedia</option>
+                    <option value="tl">Filipino Wikipedia</option>
+                    <option value="fi">Finnish Wikipedia</option>
+                    <option value="gl">Galician Wikipedia</option>
+                    <option value="el">Greek Wikipedia</option>
+                    <option value="ht">Haitian Creole Wikipedia</option>
+                    <option value="he">Hebrew Wikipedia</option>
+                    <option value="hi">Hindi Wikipedia</option>
+                    <option value="hu">Hungarian Wikipedia</option>
+                    <option value="is">Icelandic Wikipedia</option>
+                    <option value="id">Indonesian Wikipedia</option>
+                    <option value="ga">Irish Wikipedia</option>
+                    <option value="ja">Japanese Wikipedia</option>
+                    <option value="ko">Korean Wikipedia</option>
+                    <option value="lv">Latvian Wikipedia</option>
+                    <option value="lt">Lithuanian Wikipedia</option>
+                    <option value="mk">Macedonian Wikipedia</option>
+                    <option value="ms">Malay Wikipedia</option>
+                    <option value="mt">Maltese Wikipedia</option>
+                    <option value="no">Norwegian Wikipedia</option>
+                    <option value="fa">Persian Wikipedia</option>
+                    <option value="pl">Polish Wikipedia</option>
+                    <option value="pt">Portuguese Wikipedia</option>
+                    <option value="ro">Romanian Wikipedia</option>
+                    <option value="ru">Russian Wikipedia</option>
+                    <option value="sr">Serbian Wikipedia</option>
+                    <option value="sk">Slovak Wikipedia</option>
+                    <option value="sl">Slovenian Wikipedia</option>
+                    <option value="sw">Swahili Wikipedia</option>
+                    <option value="sv">Swedish Wikipedia</option>
+                    <option value="tl">Tagalog Wikipedia</option>
+                    <option value="th">Thai Wikipedia</option>
+                    <option value="tr">Turkish Wikipedia</option>
+                    <option value="uk">Ukrainian Wikipedia</option>
+                    <option value="vi">Vietnamese Wikipedia</option>
+                    <option value="cy">Welsh Wikipedia</option>
+                    <option value="yi">Yiddish Wikipedia</option>
+                    </select>
+                    <input type="text" name="search1" id="search1" />
+                    <br/>
+                    <input type="button" value="Search" onclick="startSearch();" />
+                    <input type="button" value="Random article" onclick="randomSearch();" />
+                </div>
+                <div id="sp_footer">This is the footer</div>
+        </div>
+        <div id="loading"></div>
+        <div id="header">
+            <h1 id="title">Wikipedia edits timeline</h1>
+            <div id="search_box">
+            <select id="lang_select" name="lang_select">
+                <option value="en">English Wikipedia</option>
+                <option value="fr">French Wikipedia</option>
+                <option value="es">Spanish Wikipedia</option>
+                <option value="it">Italian Wikipedia</option>
+                <option value="de">German Wikipedia</option>
+                <option value="zh">Chinese Wikipedia</option>
+                <option value="ar">Arabic Wikipedia</option>
+                <option value="da">Danish Wikipedia</option>
+                <option value="nl">Dutch Wikipedia</option>
+                <option value="af">Afrikaans Wikipedia</option>
+                <option value="sq">Albanian Wikipedia</option>
+                <option value="be">Belarusian Wikipedia</option>
+                <option value="bg">Bulgarian Wikipedia</option>
+                <option value="ca">Catalan Wikipedia</option>
+                <option value="hr">Croatian Wikipedia</option>
+                <option value="cs">Czech Wikipedia</option>
+                <option value="et">Estonian Wikipedia</option>
+                <option value="tl">Filipino Wikipedia</option>
+                <option value="fi">Finnish Wikipedia</option>
+                <option value="gl">Galician Wikipedia</option>
+                <option value="el">Greek Wikipedia</option>
+                <option value="ht">Haitian Creole Wikipedia</option>
+                <option value="he">Hebrew Wikipedia</option>
+                <option value="hi">Hindi Wikipedia</option>
+                <option value="hu">Hungarian Wikipedia</option>
+                <option value="is">Icelandic Wikipedia</option>
+                <option value="id">Indonesian Wikipedia</option>
+                <option value="ga">Irish Wikipedia</option>
+                <option value="ja">Japanese Wikipedia</option>
+                <option value="ko">Korean Wikipedia</option>
+                <option value="lv">Latvian Wikipedia</option>
+                <option value="lt">Lithuanian Wikipedia</option>
+                <option value="mk">Macedonian Wikipedia</option>
+                <option value="ms">Malay Wikipedia</option>
+                <option value="mt">Maltese Wikipedia</option>
+                <option value="no">Norwegian Wikipedia</option>
+                <option value="fa">Persian Wikipedia</option>
+                <option value="pl">Polish Wikipedia</option>
+                <option value="pt">Portuguese Wikipedia</option>
+                <option value="ro">Romanian Wikipedia</option>
+                <option value="ru">Russian Wikipedia</option>
+                <option value="sr">Serbian Wikipedia</option>
+                <option value="sk">Slovak Wikipedia</option>
+                <option value="sl">Slovenian Wikipedia</option>
+                <option value="sw">Swahili Wikipedia</option>
+                <option value="sv">Swedish Wikipedia</option>
+                <option value="tl">Tagalog Wikipedia</option>
+                <option value="th">Thai Wikipedia</option>
+                <option value="tr">Turkish Wikipedia</option>
+                <option value="uk">Ukrainian Wikipedia</option>
+                <option value="vi">Vietnamese Wikipedia</option>
+                <option value="cy">Welsh Wikipedia</option>
+                <option value="yi">Yiddish Wikipedia</option>
+                </select>
+
+                <input type="text" name="search" id="search" /><input type="button" value="Search" onclick="startSearch();" />
+                <br/>
+                <label for="incremental">Incremental</label><input type="checkbox" name="incremental" value="Incremental" id="incremental" />
+            </div>
+        </div>
+        <div id="plot"></div>
+        <div id="content">
+            <a id="fastbutton" class="button">Faster</a>
+            <a id="slowbutton" class="button">Slower</a>
+            <a id="playbutton" class="button">Pause / Play</a>
+            <p id="shortdesc">
+                Loading...
+            </p>
+            <div id="slider-id">
+                <div class="ui-slider-handle"></div>
+            </div>
+            <div id="map" class="smallmap"></div>
+        </div>
+        <div id="source">
+            <a id="source_link" href="#">Visit the source article on Wikipedia!</a>
+            <a id="manypedia_link" href="#">Compare this page on ManyPedia!</a>
+            <a id="permalink" onclick="getPermalink();" href="javascript:void(0)">Get permalink of this page!</a>
+        </div>
+        <div id="footer">
+            This is the footer
+        </div>
+        <div id="player">
+            <img id="play" src="images/play.png" width="100" height="100" alt="play" style="display:none;"/>
+            <img id="pause" src="images/pause.png" width="100" height="100" alt="pause" style="display:none;"/>
+        </div>
+        <div id="fast_slow">
+            <img id="faster" src="images/faster.png" width="100" height="100" alt="slower" style="display:none;"/>
+            <img id="slower" src="images/slower.png" width="100" height="100" alt="faster" style="display:none;"/>
+        </div>
+    </body>
+</html>
+
