@@ -172,8 +172,11 @@ function createPlot() {
     if (!$("#incremental").attr("checked")) {
         lines.push(vert_prev);
     }
-    var plot1 = $.jqplot ('plot', lines, {
-        series:[{showMarker:false}, {lineWidth:1, color:'#FF0000', showMarker:false}, {lineWidth:1, color:'#FF0000', showMarker:false}],
+
+    var plot1 = $.jqplot('plot', lines, {
+        series:[{showMarker:false},
+                {lineWidth:1, color:'#FF0000', showMarker:false},
+                {lineWidth:1, color:'#FF0000', showMarker:false}],
         axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer,
                      tickOptions:{formatString:'%d/%m/%y'},
                      min: (new Date(firstedit*1000)).toGMTString(),
@@ -578,6 +581,8 @@ $(document).ready(function () {
             $("#search_page").show("fast");
         }
     });
+
+    $.share_bar();
 
     $("#lang_select").change(function() {
         updateAutoComplete();
