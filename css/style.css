@@ -131,7 +131,7 @@ div#content {
 }
 
 div#map {
-    width: 100%;
+    width: 65%;
     height: 90%;
     margin: auto;
     background: #EEEEEE;
@@ -139,6 +139,12 @@ div#map {
     -moz-box-shadow: 3px 3px 2px #999;
     padding: 10px;
     -webkit-box-shadow: 3px 3px 2px #999;
+}
+
+div#stats {
+    float: right;
+    width: 30%;
+    height: 80%;
 }
 
 #player img {

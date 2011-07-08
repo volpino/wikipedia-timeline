@@ -19,6 +19,7 @@ var interval = 5;
 var show_tips = false;
 var speeds = ["Really slow", "Slow", "Normal", "Fast", "Really fast"];
 var curr_speed = parseInt(speeds.length / 2);
+var plot1, plot2;
 
 var defaultStyle = new OpenLayers.Style({
                             graphicName: "circle",
@@ -61,9 +62,9 @@ function clearMap() {
     timerId = undefined;
     line = undefined;
     counter = undefined;
-    $("#plot").html("");
+    resetPlot();
     $.jqplot ('plot', [[0]]);
-    $("#shortdesc").html("");
+    $("#shortdesc").empty();
     resetPlay();
     if (map) {
         map.setCenter(new OpenLayers.LonLat(0, 0), 2);
@@ -131,7 +132,7 @@ function createPlotData() {
     line = [];
     line_rel = [];
     var limit = firstedit;
-    var increment = (currentDate-firstedit) / 200;
+    var increment = (currentDate-firstedit) / 300;
     counter = 0;
     max_rel = 0;
     var counter_rel = 0;
@@ -161,6 +162,11 @@ function createPlotData() {
     line_rel.push([(new Date(limit*1000)).toGMTString(), counter_rel]);
 }
 
+function resetPlot() {
+    plot1 = undefined;
+    $("#plot").empty();
+}
+
 function createPlot() {
     if (!line || !counter) {
         createPlotData();
@@ -169,7 +175,7 @@ function createPlot() {
                      [(new Date((past_seconds-timedelta)*1000)).toGMTString(), counter]];
     var vert_line = [[(new Date(past_seconds*1000)).toGMTString(), 0],
                      [(new Date(past_seconds*1000)).toGMTString(), counter]];
-    $("#plot").html("");
+    $("#plot").empty();
     var curr_line = line;
     var curr_max = current_geojson_data.features.length;
     if (!$("#incremental").attr("checked")) {
@@ -181,28 +187,104 @@ function createPlot() {
         lines.push(vert_prev);
     }
 
-    var plot1 = $.jqplot('plot', lines, {
-        series:[{showMarker:false},
-                {lineWidth:1, color:'#FF0000', showMarker:false},
-                {lineWidth:1, color:'#FF0000', showMarker:false}],
-        axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer,
-                     tickOptions:{formatString:'%d/%m/%y'},
-                     min: (new Date(firstedit*1000)).toGMTString(),
-                     max: (new Date(currentDate*1000)).toGMTString(),
-                     label:'Time',
-                     labelRenderer: $.jqplot.CanvasAxisLabelRenderer},
-              yaxis:{min: 0,
-                     max: curr_max,
-                     tickOptions: {formatString:'%d'},
-                     label:'Edits',
-                     labelRenderer: $.jqplot.CanvasAxisLabelRenderer}},
-        highlighter: {
-            show: false
+    if (!plot1) {
+        plot1 = $.jqplot('plot', lines, {
+            series:[{showMarker:false},
+                    {lineWidth:1, color:'#FF0000', showMarker:false},
+                    {lineWidth:1, color:'#FF0000', showMarker:false}],
+            axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer,
+                         tickOptions:{formatString:'%d/%m/%y'},
+                         min: (new Date(firstedit*1000)).toGMTString(),
+                         max: (new Date(currentDate*1000)).toGMTString(),
+                         label:'Time',
+                         labelRenderer: $.jqplot.CanvasAxisLabelRenderer},
+                  yaxis:{min: 0,
+                         max: curr_max,
+                         tickOptions: {formatString:'%d'},
+                         label:'Edits',
+                         labelRenderer: $.jqplot.CanvasAxisLabelRenderer}},
+            highlighter: {
+                show: false
+            },
+            cursor: {
+                show: true,
+                tooltipLocation:'sw',
+                zoom: true,
+            }
+        });
+    }
+    else {
+        for (var i=0; i<lines.length; i++) {
+            plot1.series[i].data = lines[i];
+        }
+        plot1.replot();
+    }
+}
+
+function createCountryPlot() {
+    var countries = {};
+
+    $("#stats").empty();
+    var top_countries = current_geojson_data.stats.top_countries;
+
+    var max = 0;
+    for (var i in top_countries) {
+        countries[i] = 0;
+        if (!lowerlimit && !max) {
+            max = top_countries[i];
+        }
+    }
+
+    var i = 0;
+    if (current_geojson_data && current_geojson_data.features) {
+        var f = current_geojson_data.features;
+        while (i<f.length && f[i].properties.when <= past_seconds) {
+            if (lowerlimit) {
+                if (f[i].properties.when >= lowerlimit) {
+                    var c = f[i].properties.country;
+                    if (c in countries) {
+                        countries[c]++;
+                    }
+                    if (max < countries[c]) {
+                        max = countries[c];
+                    }
+                }
+            }
+            else {
+                var c = f[i].properties.country;
+                if (c in countries) {
+                    countries[c]++;
+                }
+            }
+            i++;
+        }
+    }
+
+    var bars = [];
+
+    $.each(countries, function(k, v) {
+        bars.push([k, v]);
+    });
+
+    plot2 = $.jqplot('stats', [bars], {
+        series:[{renderer:$.jqplot.BarRenderer,
+                 rendererOptions: {varyBarColor:true}}],
+        axesDefaults: {
+          tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+          tickOptions: {
+            angle: -30,
+            fontSize: '10pt'
+          }
         },
-        cursor: {
-            show: true,
-            tooltipLocation:'sw',
-            zoom: true,
+        axes: {
+          xaxis: {
+            renderer: $.jqplot.CategoryAxisRenderer
+          },
+          yaxis: {
+            min: 0,
+            max: max+10,
+            tickOptions: {formatString: '%d'}
+          }
         }
     });
 }
@@ -268,6 +350,7 @@ function change_function(e, ui) {
         var d = new Date(past_seconds*1000);
         $("#shortdesc").html("History of the page \""+article_name+"\" @ "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()+" Edits:"+current_edits);
         createPlot();
+        createCountryPlot();
     }
 }
 
@@ -349,6 +432,7 @@ function initmap(seconds) {
         current_geojson_data = data;
         //display_layer = createDisplayLayer();
         createPlot();
+        createCountryPlot();
         $("#slider-id").slider({ disabled: false });
         if (past_seconds - firstedit > 0) {
             $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
@@ -365,15 +449,17 @@ function initmap(seconds) {
 }
 
 function mapTips() {
-    $('#search').bubbletip($('#tip_search_page'), {
+    $('#search').bubbletip($('#tip_main_page'), {
         deltaDirection: 'down',
         bindShow: 'focus',
         bindHide: 'blur'
     });
     $('#search').trigger('focus');
+    setTimeout(function () { $('#search').trigger('blur') }, 5000);
 
     $('#source').bubbletip($('#tip_links'));
     $('#source').trigger('mouseover');
+    setTimeout(function () { $('#source').trigger('mouseout') }, 5000);
 
     show_tips = false;
 }
@@ -674,7 +760,7 @@ $(document).ready(function () {
 
     $("#incremental").change(function() {
         map.setCenter(new OpenLayers.LonLat(0, 0), 2);
-        createPlot();
+        resetPlot();
         change_function();
     });
 });
