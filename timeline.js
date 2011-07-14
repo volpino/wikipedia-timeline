@@ -20,6 +20,7 @@ var show_tips = false;
 var speeds = ["Really slow", "Slow", "Normal", "Fast", "Really fast"];
 var curr_speed = parseInt(speeds.length / 2);
 var plot1, plot2;
+var current_gender_data;
 
 var defaultStyle = new OpenLayers.Style({
                             graphicName: "circle",
@@ -54,6 +55,7 @@ function clearMap() {
         map.removeControl(selectControl);
     }
     current_geojson_data = undefined;
+    current_gender_data = undefined;
     $("#slider-id").slider("value", 0);
     $("#slider-id").slider({ disabled: true });
     if (timerId) {
@@ -83,6 +85,9 @@ function resetPlay() {
 }
 
 function createDisplayLayer() {
+    if (!map) {
+        return false;
+    }
     var l = new OpenLayers.Layer.Vector("display", {
                 strategies: [new OpenLayers.Strategy.Cluster()],
                 styleMap: defaultStyle
@@ -90,12 +95,31 @@ function createDisplayLayer() {
 
     var features = [];
     current_edits = 0;
+    var countries = {};
+    var max = 0;
     if (current_geojson_data && current_geojson_data.features) {
+        var top_countries = current_geojson_data.stats.top_countries;
+        for (var i in top_countries) {
+            countries[i] = 0.1;
+            if (!lowerlimit && !max) {
+                max = top_countries[i];
+            }
+        }
+
         var f = current_geojson_data.features;
         for (var i=0; i<f.length; i++) {
             if (f[i].properties.when <= past_seconds) {
                 current_edits++;
                 if (!lowerlimit || f[i].properties.when >= lowerlimit) {
+                    // country plot data
+                    var c = f[i].properties.country;
+                    if (c in countries) {
+                        countries[c]++;
+                    }
+                    if (lowerlimit && max < countries[c]) {
+                        max = countries[c];
+                    }
+                    // map data
                     var p = f[i].geometry.coordinates;
                     var point = new OpenLayers.Geometry.Point(p[0], p[1]);
                     point.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -125,6 +149,9 @@ function createDisplayLayer() {
             onFeatureUnselect(e.feature);
         }
     });
+
+    createCountryPlot(countries, max);
+
     return l;
 }
 
@@ -221,52 +248,17 @@ function createPlot() {
     }
 }
 
-function createCountryPlot() {
-    var countries = {};
-
-    $("#stats").empty();
-    var top_countries = current_geojson_data.stats.top_countries;
-
-    var max = 0;
-    for (var i in top_countries) {
-        countries[i] = 0;
-        if (!lowerlimit && !max) {
-            max = top_countries[i];
-        }
-    }
-
-    var i = 0;
-    if (current_geojson_data && current_geojson_data.features) {
-        var f = current_geojson_data.features;
-        while (i<f.length && f[i].properties.when <= past_seconds) {
-            if (lowerlimit) {
-                if (f[i].properties.when >= lowerlimit) {
-                    var c = f[i].properties.country;
-                    if (c in countries) {
-                        countries[c]++;
-                    }
-                    if (max < countries[c]) {
-                        max = countries[c];
-                    }
-                }
-            }
-            else {
-                var c = f[i].properties.country;
-                if (c in countries) {
-                    countries[c]++;
-                }
-            }
-            i++;
-        }
-    }
-
+function createCountryPlot(countries, max) {
+    $("#countries_stats").empty();
     var bars = [];
-
     $.each(countries, function(k, v) {
         bars.push([k, v]);
     });
-
-    plot2 = $.jqplot('stats', [bars], {
+    if (bars.length==0) {
+        return false;
+    }
+    console.log(bars);
+    plot2 = $.jqplot('countries_stats', [bars], {
         series:[{renderer:$.jqplot.BarRenderer,
                  rendererOptions: {varyBarColor:true}}],
         axesDefaults: {
@@ -288,6 +280,43 @@ function createCountryPlot() {
         }
     });
 }
+
+function createGenderPlot() {
+    $("#gender_stats").html("Loading...");
+    if (!current_gender_data) {
+        return false;
+    }
+    var lines = {male: 0.1, female: 0.1};
+    $.each(current_gender_data, function(elem) {
+        var current = current_gender_data[elem];
+        if (current.timestamp <= past_seconds) {
+            if (!lowerlimit || current.timestamp >= lowerlimit) {
+                lines[current.gender]++;
+            }
+        }
+        else {
+            return false;
+        }
+    });
+    $("#gender_stats").empty();
+    var plot3 = $.jqplot('gender_stats', [[["male", lines.male],
+                                          ["female", lines.female]]], {
+        series:[{renderer:$.jqplot.BarRenderer,
+                 rendererOptions: {varyBarColor:true}}],
+        axes: {
+          xaxis: {
+            renderer: $.jqplot.CategoryAxisRenderer
+          },
+          yaxis: {
+            //max: current_gender_data.length,
+            tickOptions: {formatString: '%d'},
+            min: 0,
+            max: lines.male+lines.female+1
+          }
+        }
+    });
+}
+
 
 function onPopupClose(evt) {
    selectControl.unselect(selectedFeature);
@@ -350,8 +379,8 @@ function change_function(e, ui) {
         var d = new Date(past_seconds*1000);
         $("#shortdesc").html("History of the page \""+article_name+"\" @ "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()+" Edits:"+current_edits);
         createPlot();
-        createCountryPlot();
     }
+    createGenderPlot();
 }
 
 function onLoad() {
@@ -430,9 +459,8 @@ function initmap(seconds) {
         $("#loading").fadeOut("slow");
         $("#shortdesc").html('Data loaded!');
         current_geojson_data = data;
-        //display_layer = createDisplayLayer();
+        display_layer = createDisplayLayer();
         createPlot();
-        createCountryPlot();
         $("#slider-id").slider({ disabled: false });
         if (past_seconds - firstedit > 0) {
             $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
@@ -446,6 +474,13 @@ function initmap(seconds) {
             setTimeout("mapTips();", 2000);
         }
     });
+
+    url = "http://toolserver.org/~sonet/api_gender.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&callback=?"
+    $.getJSON(url, function(data) {
+        current_gender_data = data;
+        createGenderPlot();
+    });
+
 }
 
 function mapTips() {

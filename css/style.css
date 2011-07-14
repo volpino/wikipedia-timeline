@@ -26,7 +26,7 @@ body {
 
 div, p {
     font-family: Verdana, Arial, sans-serif;
-    color: #666666;
+    color: #555;
     font-size: 15px;
 }
 
@@ -131,9 +131,8 @@ div#content {
 }
 
 div#map {
-    width: 65%;
+    width: 70%;
     height: 90%;
-    margin: auto;
     background: #EEEEEE;
     border:1px solid #DEDEDE;
     -moz-box-shadow: 3px 3px 2px #999;
@@ -143,8 +142,17 @@ div#map {
 
 div#stats {
     float: right;
-    width: 30%;
-    height: 80%;
+    width: 26%;
+    height: 87%;
+}
+
+div#countries_stats {
+    height: 70%;
+}
+
+div#gender_stats {
+    padding-top: 30px;
+    height: 28%;
 }
 
 #player img {
@@ -185,7 +193,7 @@ a.button {
 }
 
 a.button:hover {
-    background-color: #111; color: #fff;
+    background-color: #666; color: #fff;
 }
 
 #speed {
