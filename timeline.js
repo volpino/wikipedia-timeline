@@ -11,8 +11,10 @@ var selectControl;
 var selectedFeature;
 var line;
 var line_rel;
+var max;
 var max_rel;
-var counter;
+var line_all;
+var line_all_rel;
 var lowerlimit;
 var timedelta = 15552000;
 var interval = 5;
@@ -21,6 +23,7 @@ var speeds = ["Really slow", "Slow", "Normal", "Fast", "Really fast"];
 var curr_speed = parseInt(speeds.length / 2);
 var plot1, plot2;
 var current_gender_data;
+var current_api_data;
 
 var defaultStyle = new OpenLayers.Style({
                             graphicName: "circle",
@@ -63,7 +66,6 @@ function clearMap() {
     }
     timerId = undefined;
     line = undefined;
-    counter = undefined;
     resetPlot();
     $.jqplot ('plot', [[0]]);
     $("#shortdesc").empty();
@@ -158,35 +160,37 @@ function createDisplayLayer() {
 function createPlotData() {
     line = [];
     line_rel = [];
-    var limit = firstedit;
-    var increment = (currentDate-firstedit) / 300;
-    counter = 0;
+
+    line_all = [];
+    line_all_rel = [];
+
+    max = 0;
     max_rel = 0;
-    var counter_rel = 0;
-    var i = 0;
-    line.push([(new Date(limit*1000)).toGMTString(), counter]);
-    line_rel.push([(new Date(limit*1000)).toGMTString(), counter_rel]);
-    if (current_geojson_data && current_geojson_data.features) {
-        var f = current_geojson_data.features;
-        while (i<f.length) {
-            if (f[i].properties.when <= limit) {
-                counter++;
-                counter_rel++;
-                i++;
-            }
-            else {
-                line.push([(new Date(limit*1000)).toGMTString(), counter]);
-                line_rel.push([(new Date(limit*1000)).toGMTString(), counter_rel]);
-                if (counter_rel > max_rel) {
-                    max_rel = counter_rel;
-                }
-                counter_rel = 0;
-                limit += increment;
-            }
-        }
+
+    if (current_api_data && current_api_data.year_count) {
+        var f = current_api_data.year_count;
+        var date;
+        var c;
+        var anon;
+        var anon_cum = 0;
+        $.each(f, function(year, value) {
+            $.each(value.months, function(month, count_data) {
+                date = year+"/"+month+"/15";
+                anon = count_data.anon;
+                anon_cum += anon;
+
+                c = count_data.cumulative - anon_cum;
+                line_all.push([date, c]);
+                line.push([date, anon_cum]);
+                max = Math.max(max, anon_cum, c);
+
+                c = count_data.all - anon;
+                line_all_rel.push([date, c]);
+                line_rel.push([date, anon]);
+                max_rel = Math.max(max_rel, anon, c);
+            });
+        });
     }
-    line.push([(new Date(currentDate*1000)).toGMTString(), counter]);
-    line_rel.push([(new Date(limit*1000)).toGMTString(), counter_rel]);
 }
 
 function resetPlot() {
@@ -195,28 +199,31 @@ function resetPlot() {
 }
 
 function createPlot() {
-    if (!line || !counter) {
+    if (!line) {
         createPlotData();
     }
     var vert_prev = [[(new Date((past_seconds-timedelta)*1000)).toGMTString(), 0],
-                     [(new Date((past_seconds-timedelta)*1000)).toGMTString(), counter]];
+                     [(new Date((past_seconds-timedelta)*1000)).toGMTString(), max]];
     var vert_line = [[(new Date(past_seconds*1000)).toGMTString(), 0],
-                     [(new Date(past_seconds*1000)).toGMTString(), counter]];
+                     [(new Date(past_seconds*1000)).toGMTString(), max]];
     $("#plot").empty();
     var curr_line = line;
-    var curr_max = current_geojson_data.features.length;
+    var curr_line_all = line_all;
+    var curr_max = max;
     if (!$("#incremental").attr("checked")) {
         curr_line = line_rel;
+        curr_line_all = line_all_rel;
         curr_max = max_rel;
     }
-    var lines = [curr_line, vert_line];
+    var lines = [curr_line, curr_line_all, vert_line];
     if (!$("#incremental").attr("checked")) {
         lines.push(vert_prev);
     }
 
     if (!plot1) {
         plot1 = $.jqplot('plot', lines, {
-            series:[{showMarker:false},
+            series:[{showMarker:false, label: "Anon edits"},
+                    {showMarker:false, label: "User edits"},
                     {lineWidth:1, color:'#FF0000', showMarker:false},
                     {lineWidth:1, color:'#FF0000', showMarker:false}],
             axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer,
@@ -235,9 +242,13 @@ function createPlot() {
             },
             cursor: {
                 show: true,
-                tooltipLocation:'sw',
-                zoom: true,
-            }
+                zoom: false,
+                showTooltip: false
+            },
+            legend: {
+                show: true,
+                placement: 'outsideGrid'
+            },
         });
     }
     else {
@@ -246,6 +257,7 @@ function createPlot() {
         }
         plot1.replot();
     }
+    $("#plot tbody").find("tr:gt(1)").remove();
 }
 
 function createCountryPlot(countries, max) {
@@ -257,16 +269,17 @@ function createCountryPlot(countries, max) {
     if (bars.length==0) {
         return false;
     }
-    console.log(bars);
     plot2 = $.jqplot('countries_stats', [bars], {
+        title: "Top Countries (anon edits only)",
         series:[{renderer:$.jqplot.BarRenderer,
                  rendererOptions: {varyBarColor:true}}],
         axesDefaults: {
           tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
           tickOptions: {
             angle: -30,
-            fontSize: '10pt'
-          }
+            fontSize: '10pt',
+            textColor: '#FFFFFF'
+          },
         },
         axes: {
           xaxis: {
@@ -301,6 +314,7 @@ function createGenderPlot() {
     $("#gender_stats").empty();
     var plot3 = $.jqplot('gender_stats', [[["male", lines.male],
                                           ["female", lines.female]]], {
+        title: "Gender stats (users only)",
         series:[{renderer:$.jqplot.BarRenderer,
                  rendererOptions: {varyBarColor:true}}],
         axes: {
@@ -480,7 +494,6 @@ function initmap(seconds) {
         current_gender_data = data;
         createGenderPlot();
     });
-
 }
 
 function mapTips() {
@@ -527,28 +540,25 @@ function randomSearch() {
 function getData(seconds) {
     clearMap();
     $("#loading").fadeIn("slow");
-    var url = "http://"+main_lang()+".wikipedia.org/w/api.php?action=query&prop=revisions&titles="+encodeURI(article_name)+"&rvlimit=1&rvprop=timestamp&rvdir=newer&format=json&redirects&callback=?";
+    //var url = "http://"+main_lang()+".wikipedia.org/w/api.php?action=query&prop=revisions&titles="+encodeURI(article_name)+"&rvlimit=1&rvprop=timestamp&rvdir=newer&format=json&redirects&callback=?";
+    var url = "http://toolserver.org/~sonet/api.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
     $.getJSON(url, function(data) {
-        $.each(data.query.pages, function(id) {
-            clearMap();
-            if (data.query.pages[id]["revisions"]) {
-                firstedit = (new Date(data.query.pages[id]["revisions"][0]["timestamp"])).getTime() / 1000;
-                if (seconds) {
-                    past_seconds = seconds;
-                    $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
-                }
-                else {
-                    past_seconds = firstedit;
-                }
-                initmap(seconds);
-                return false;
+        current_api_data = data;
+        if (data.first_edit) {
+            firstedit = data.first_edit.timestamp;
+            if (seconds) {
+                past_seconds = seconds;
+                $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
             }
             else {
+                past_seconds = firstedit;
+            }
+            initmap(seconds);
+        }
+        else {
             $.facebox("<p>We're sorry!</p><p>The page you requested has not been found!</p>");
             $("#loading").fadeOut("fast");
-            return false;
-            }
-        });
+        }
     });
 }
 

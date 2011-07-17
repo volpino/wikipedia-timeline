@@ -99,7 +99,10 @@
                 </div>
                 <div id="sp_footer">This is the footer</div>
         </div>
-        <div id="loading"></div>
+        <div id="loading">
+            <p>Loading data... Please wait</p>
+            <img src="images/loading.gif" alt="loading" />
+        </div>
         <div id="main_page">
             <div id="header">
                 <h1 id="title">Wikipedia edits timeline</h1>
@@ -161,8 +164,9 @@
                     </select>
 
                     <input type="text" name="search" id="search" /><input type="button" value="Search" onclick="startSearch();" />
-                    <br/>
-                    <label for="incremental">Incremental</label><input type="checkbox" name="incremental" value="Incremental" id="incremental" />
+                    <div id="incremental_container">
+                        <label for="incremental">Incremental</label><input type="checkbox" name="incremental" value="Incremental" id="incremental" />
+                    </div>
                 </div>
             </div>
             <div id="plot"></div>
