@@ -28,7 +28,7 @@ body {
 
 div, p {
     color: #FFF;
-    font-size: 15px;
+    font-size: 1.0em;
 }
 
 div#search_page {
@@ -56,7 +56,7 @@ div#sp_content {
 }
 
 #sp_content p {
-    font-size: 16px;
+    font-size: 1.1em;
     text-shadow: 0 0 1px #BBB;
 }
 
@@ -72,7 +72,7 @@ select {
 }
 
 #sp_content input[type=button] {
-    font-size: 16px;
+    font-size: 1.1em;
     margin: 15px;
     padding-left: 10px;
     padding-right: 10px;
@@ -88,17 +88,22 @@ div#loading {
     width: 100%;
     position: fixed;
     background-color: #666;
-    filter: alpha(opacity=95);
+    /*filter: alpha(opacity=95);
     opacity: 0.95;
-    -moz-opacity: 0.95;
+    -moz-opacity: 0.95;*/
     z-index: 10;
 }
 
 #dotdot {
     text-align: center;
-    top: 35%;
+    top: 30%;
     padding-right: 2%;
     font-size: 1.6em;
+}
+
+#loading_page {
+    text-align: center;
+    top: 35%;
 }
 
 #loading img {
@@ -140,7 +145,7 @@ div#header {
 
 #title, #page_title {
     margin-bottom: 5px;
-    font-size: 20px;
+    font-size: 1.7em;
     text-shadow: 0 0 1px #333;
     color: #eaa228;
     text-transform: uppercase;
@@ -148,7 +153,7 @@ div#header {
 }
 
 #page_title {
-    font-size: 30px;
+    font-size: 2.0em;
 }
 
 select, input {
@@ -198,17 +203,17 @@ div#map {
 div#stats {
     float: right;
     width: 26%;
-    height: 87%;
+    height: 85%;
 }
 
 div#countries_stats {
     margin-top: 10px;
-    height: 70%;
+    height: 69%;
 }
 
 div#gender_stats {
     margin-top: 20px;
-    height: 28%;
+    height: 27%;
     color: #FFF;
 }
 
@@ -266,7 +271,7 @@ a.button:hover {
 #help a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 0.95em;
 }
 
 #speed {
@@ -274,13 +279,13 @@ a.button:hover {
     margin-right: 10px;
     margin-left: 15px;
     margin-top: 4px;
-    font-size: 11px;
+    font-size: 0.8em;
     width: 130px;
 }
 
 #source {
     text-align:center;
-    font-size: 12px;
+    font-size: 0.8em;
     padding: 5px;
 }
 
@@ -292,7 +297,7 @@ a.button:hover {
 #footer {
     text-align: center;
     font-style: italic;
-    font-size: 11px;
+    font-size: 0.8em;
 }
 
 textarea {
@@ -363,4 +368,8 @@ a {
 
 .olFramedCloudPopupContent {
     color: #424242;
+}
+
+.content p {
+    color: #111;
 }

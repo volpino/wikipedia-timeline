@@ -567,13 +567,14 @@ function randomSearch() {
 }
 
 function getData(seconds) {
-    clearMap();
     loadingTip();
+    $("#article_name").text(article_name);
     $("#loading").fadeIn("slow");
     var url = "http://toolserver.org/~sonet/api.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
     $.getJSON(url, function(data) {
         current_api_data = data;
         if (data.first_edit) {
+            clearMap();
             firstedit = data.first_edit.timestamp;
             if (seconds) {
                 past_seconds = seconds;
@@ -586,7 +587,7 @@ function getData(seconds) {
         }
         else {
             $.facebox("<p>We're sorry!</p><p>The page you requested has not been found!</p>");
-            $("#loading").fadeOut("fast");
+            $("#search_page").fadeIn("fast");
         }
     });
 }
