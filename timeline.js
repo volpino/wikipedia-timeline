@@ -48,6 +48,11 @@ function main_lang() {
     return $("#lang_select").val();
 }
 
+function loadingTip() {
+    var i = Math.ceil(Math.random()*($(".load_tip").length-1));
+    $("#loading_tip").text("Tip: " + $(".load_tip:eq("+i+")").html());
+}
+
 function clearMap() {
     if (display_layer) {
         map.removeLayer(display_layer);
@@ -67,7 +72,6 @@ function clearMap() {
     timerId = undefined;
     line = undefined;
     resetPlot();
-    $.jqplot ('plot', [[0]]);
     $("#shortdesc").empty();
     resetPlay();
     if (map) {
@@ -206,7 +210,7 @@ function createPlot() {
                      [(new Date((past_seconds-timedelta)*1000)).toGMTString(), max]];
     var vert_line = [[(new Date(past_seconds*1000)).toGMTString(), 0],
                      [(new Date(past_seconds*1000)).toGMTString(), max]];
-    $("#plot").empty();
+    //$("#plot").empty();
     var curr_line = line;
     var curr_line_all = line_all;
     var curr_max = max;
@@ -295,10 +299,16 @@ function createCountryPlot(countries, max) {
 }
 
 function createGenderPlot() {
-    $("#gender_stats").html("Loading...");
+    if (!$("#gender_stats").html()) {
+        $("#gender_stats").Loadingdotdotdot({
+            "speed": 400,
+            "maxDots": 4
+        });
+    }
     if (!current_gender_data) {
         return false;
     }
+
     var lines = {male: 0.1, female: 0.1};
     $.each(current_gender_data, function(elem) {
         var current = current_gender_data[elem];
@@ -316,7 +326,8 @@ function createGenderPlot() {
                                           ["female", lines.female]]], {
         title: "Gender stats (users only)",
         series:[{renderer:$.jqplot.BarRenderer,
-                 rendererOptions: {varyBarColor:true}}],
+                 rendererOptions: { varyBarColor: true },
+                 pointLabels: { show: true }}],
         axes: {
           xaxis: {
             renderer: $.jqplot.CategoryAxisRenderer
@@ -325,7 +336,7 @@ function createGenderPlot() {
             //max: current_gender_data.length,
             tickOptions: {formatString: '%d'},
             min: 0,
-            max: lines.male+lines.female+1
+            max: (lines.male+lines.female)*2
           }
         }
     });
@@ -517,8 +528,10 @@ function startSearch() {
         $("#search").val($("#search1").val());
         $("#lang_select").val($("#lang_select1").val());
     }
-    $("#search_page").fadeOut(1500);
-    $.History.go("|"+$("#lang_select").val()+"|"+encodeURI($("#search").val().replace(/\s+/g, "_")));
+    if ($("#search").val()) {
+        $("#search_page").fadeOut(1500);
+        $.History.go("|"+$("#lang_select").val()+"|"+encodeURI($("#search").val().replace(/\s+/g, "_")));
+    }
 }
 
 function randomSearch() {
@@ -539,6 +552,7 @@ function randomSearch() {
 
 function getData(seconds) {
     clearMap();
+    loadingTip();
     $("#loading").fadeIn("slow");
     //var url = "http://"+main_lang()+".wikipedia.org/w/api.php?action=query&prop=revisions&titles="+encodeURI(article_name)+"&rvlimit=1&rvprop=timestamp&rvdir=newer&format=json&redirects&callback=?";
     var url = "http://toolserver.org/~sonet/api.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
@@ -769,7 +783,7 @@ $(document).ready(function () {
         $.cookie("visited_timeline", "true", {expires: 60*60*24});
         show_tips = true;
     }
-    show_tips = true;
+    //show_tips = true;
     if (show_tips && !window.location.hash) {
         $('#search1').bubbletip($('#tip_search_page'), {
             deltaDirection: 'right',
@@ -808,6 +822,14 @@ $(document).ready(function () {
         resetPlot();
         change_function();
     });
+
+    $("#dotdot").Loadingdotdotdot({
+        "speed": 400,
+        "maxDots": 4
+    });
+
+    $("#search1").clickOnEnter("#search1_btn");
+    $("#search").clickOnEnter("#search_btn");
 });
 
     /*$(document).keypress(function(e){

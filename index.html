@@ -21,6 +21,7 @@
         <script type="text/javascript" src="lib/jqplot.canvasAxisTickRenderer.min.js"></script>
         <script type="text/javascript" src="lib/jqplot.categoryAxisRenderer.min.js"></script>
         <script type="text/javascript" src="lib/jqplot.barRenderer.min.js"></script>
+        <script type="text/javascript" src="lib/jqplot.pointLabels.min.js"></script>
 
         <script type="text/javascript" src="lib/jqplot.cursor.min.js"></script>
         <link href="facebox/facebox.css" media="screen" rel="stylesheet" type="text/css"/>
@@ -29,6 +30,8 @@
         <script src="lib/share.js" type="text/javascript"></script>
         <script src="lib/jQuery.bubbletip-1.0.6.js" type="text/javascript"></script>
         <link href="lib/bubbletip/bubbletip.css" rel="stylesheet" type="text/css" />
+        <script src="lib/jquery.loadingdotdotdot.js" type="text/javascript"></script>
+        <script src="lib/jquery.safeEnter.js" type="text/javascript"></script>
         <script type="text/javascript" src="timeline.js"></script>
 
     </head>
@@ -94,14 +97,15 @@
                     </select>
                     <input type="text" name="search1" id="search1" />
                     <br/>
-                    <input type="button" value="Search" onclick="startSearch();" />
+                    <input type="button" id="search1_btn" value="Search" onclick="startSearch();" />
                     <input type="button" value="Random article" onclick="randomSearch();" />
                 </div>
-                <div id="sp_footer">This is the footer</div>
+                <div id="sp_footer">Powered by SoNet</div>
         </div>
         <div id="loading">
-            <p>Loading data... Please wait</p>
+            <p id="dotdot"></p>
             <img src="images/loading.gif" alt="loading" />
+            <p id="loading_tip"></p>
         </div>
         <div id="main_page">
             <div id="header">
@@ -163,9 +167,9 @@
                     <option value="yi">Yiddish Wikipedia</option>
                     </select>
 
-                    <input type="text" name="search" id="search" /><input type="button" value="Search" onclick="startSearch();" />
+                    <input type="text" name="search" id="search" /><input type="button" id="search_btn" value="Search" onclick="startSearch();" />
                     <div id="incremental_container">
-                        <label for="incremental">Incremental</label><input type="checkbox" name="incremental" value="Incremental" id="incremental" />
+                        <label for="incremental">Cumulative</label><input type="checkbox" checked="checked" name="incremental" value="Incremental" id="incremental" />
                     </div>
                 </div>
             </div>
@@ -189,11 +193,11 @@
             </div>
             <div id="source">
                 <a id="source_link" href="#">Visit the source article on Wikipedia!</a>
-                <a id="manypedia_link" href="#">Compare this page on ManyPedia!</a>
+                <a id="manypedia_link" href="#">Compare this page on Manypedia!</a>
                 <a id="permalink" onclick="getPermalink();" href="javascript:void(0)">Get permalink of this page!</a>
             </div>
             <div id="footer">
-                This is the footer
+                Powered by SoNet
             </div>
         </div>
         <div id="player">
@@ -206,12 +210,24 @@
         </div>
         <div id="tip_search_page" class="tip">
             <p>Hey, looks like it's yout first time here!</p>
+            <p>You can search a Wikipedia article using this form :D</p>
         </div>
         <div id="tip_main_page" class="tip">
-            <p>This is a tip :D</p>
+            <p>This page is showing you a timeline of a Wikipedia article</p>
         </div>
         <div id="tip_links" class="tip">
-            <p>Really cool links!</p>
+            <p>
+                Here there are some links to the original Wikipedia article, <br/>
+                Manypedia <a target="_blank" href="http://www.gnuband.org/2011/07/04/manypedia_comparing_linguistic_points_of_view_lpov_of_different_language_wikipedias_/">(what's that?)</a>
+                or the permalink of this page <br/>at this specific date and settings.
+            </p>
+        </div>
+        <div style="display:none">
+            <p class="load_tip">If you uncheck the "Cumulative" box you'll get an instantaneous view of the data</p>
+            <p class="load_tip">The map shows only anonymous edits because it's not possible to trace registered users (because of Wikipedia's policy too)</p>
+            <p class="load_tip">The "Top Countries" chart shows data of anonymous edits (like the map)</p>
+            <p class="load_tip">At the bottom of the page there are some useful links. You can see the source article or compare the page on Manypedia!</p>
+            <p class="load_tip">The permalink stores the state of the page at the date that you're viewing! So you can share interesting spikes of edits with other people</p>
         </div>
     </body>
 </html>

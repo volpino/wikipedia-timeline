@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Calligraffitti|Merriweather&subset=latin&v2);
+@import url(http://fonts.googleapis.com/css?family=Merriweather&subset=latin&v2);
 
 * {
     padding: 0;
@@ -23,7 +23,7 @@ body {
                 left top, left bottom, from(#424242), to(#F5F5F5));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(
-                StartColorStr='#424242', EndColorStr='#F5F5F5', GradientType=0);
+            StartColorStr='#424242', EndColorStr='#F5F5F5', GradientType=0);
 }
 
 div, p {
@@ -94,9 +94,11 @@ div#loading {
     z-index: 10;
 }
 
-#loading p {
+#dotdot {
     text-align: center;
     top: 35%;
+    padding-right: 2%;
+    font-size: 1.6em;
 }
 
 #loading img {
@@ -114,11 +116,19 @@ div#loading {
     margin-left: -47px;
 }
 
+#loading_tip {
+    margin-top: 40%;
+    font-style: italic;
+    font-size: 1.0em;
+    text-align: center;
+}
+
 div#main_page {
     background-color: #424242;
     height: 100%;
     width: 93%;
     margin: auto;
+    overflow: hidden;
 }
 
 div#header {
@@ -192,12 +202,18 @@ div#stats {
 }
 
 div#countries_stats {
+    margin-top: 10px;
     height: 70%;
 }
 
 div#gender_stats {
-    margin-top: 30px;
+    margin-top: 20px;
     height: 28%;
+    color: #FFF;
+}
+
+.jqplot-point-label {
+    color: #424242;
 }
 
 #player img {
@@ -314,6 +330,11 @@ textarea {
 
 .tip p {
     color: #424242;
+    font-size: 13px;
+}
+
+.tip a {
+    color: #222;
 }
 
 .bubbletip {
@@ -326,4 +347,8 @@ a {
 
 .jqplot-axis {
     color: #EEE;
+}
+
+.olFramedCloudPopupContent {
+    color: #424242;
 }
