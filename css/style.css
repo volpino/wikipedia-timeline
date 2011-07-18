@@ -257,6 +257,18 @@ a.button:hover {
     background-color: #999; color: #fff;
 }
 
+#help {
+    float: right;
+    margin-left: 10px;
+    z-index: 1;
+}
+
+#help a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+}
+
 #speed {
     float: right;
     margin-right: 10px;

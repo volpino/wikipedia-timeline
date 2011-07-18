@@ -53,6 +53,10 @@ function loadingTip() {
     $("#loading_tip").text("Tip: " + $(".load_tip:eq("+i+")").html());
 }
 
+function getHelp() {
+    mapTips();
+}
+
 function clearMap() {
     if (display_layer) {
         map.removeLayer(display_layer);
@@ -402,7 +406,7 @@ function change_function(e, ui) {
     }
     if (current_geojson_data) {
         var d = new Date(past_seconds*1000);
-        $("#shortdesc").html("History of the page \""+article_name+"\" @ "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()+" Edits:"+current_edits);
+        $("#shortdesc").html("History of the page \""+article_name+"\" @ "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
         createPlot();
     }
     createGenderPlot();
@@ -539,13 +543,25 @@ function randomSearch() {
     var url = "http://"+$("#lang_select1").val()+".wikipedia.org/w/api.php?action=query&list=recentchanges&rclimit=100&rcprop=sizes|title&rcnamespace=0&format=json&callback=?";
     $.getJSON(url, function(data) {
         var articles = [];
+        var short_articles = [];
         $.each(data.query.recentchanges, function(elem) {
             var art = data.query.recentchanges[elem]
-            if (art.type == "edit" && art.newlen >= 30000) {
-                articles.push(data.query.recentchanges[elem].title);
+            if (art.type == "edit") {
+                if (art.newlen >= 80000) {
+                    articles.push(art.title);
+                }
+                else {
+                    short_articles.push(art.title);
+                }
             }
         });
-        var rand = articles[Math.floor(Math.random() * articles.length)];
+        var rand;
+        if (articles.length) {
+            rand = articles[Math.floor(Math.random() * articles.length)];
+        }
+        else {
+             rand = short_articles[Math.floor(Math.random() * short_articles.length)];
+        }
         $.History.go("|"+$("#lang_select1").val()+"|"+encodeURI(rand.replace(/\s+/g, "_")));
     });
 }
@@ -554,7 +570,6 @@ function getData(seconds) {
     clearMap();
     loadingTip();
     $("#loading").fadeIn("slow");
-    //var url = "http://"+main_lang()+".wikipedia.org/w/api.php?action=query&prop=revisions&titles="+encodeURI(article_name)+"&rvlimit=1&rvprop=timestamp&rvdir=newer&format=json&redirects&callback=?";
     var url = "http://toolserver.org/~sonet/api.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
     $.getJSON(url, function(data) {
         current_api_data = data;
