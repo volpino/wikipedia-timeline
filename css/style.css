@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Merriweather&subset=latin&v2);
+/* @font-face kit by Fonts2u (http://www.fonts2u.com) */ @font-face {font-family:"1960s Hippie";src:url("1960s_Hippie.eot?") format("eot"),url("1960s_Hippie.woff") format("woff"),url("1960s_Hippie.ttf") format("truetype"),url("1960s_Hippie.svg#1960sHippie") format("svg");font-weight:normal;font-style:normal;}
 
 * {
     padding: 0;
@@ -6,7 +7,7 @@
     z-index: 0;
     position: relative;
     font-family: 'Merriweather', georgia, serif;
-    text-shadow: 0 0 1px #BBB;
+    text-shadow: 0 0 1px #777;
 }
 
 html, body {
@@ -155,15 +156,31 @@ div#header {
 
 #title, #page_title {
     margin-bottom: 5px;
-    font-size: 1.6em;
-    text-shadow: 0 0 1px #333;
+    font-size: 40px;
+    text-shadow: 0 0 2px #111;
     color: #eaa228;
-    text-transform: uppercase;
-    word-spacing: 0.5em;
+    /*text-transform: uppercase;*/
+    font-family: "1960s Hippie";
+    font-weight: normal;
 }
 
 #page_title {
-    font-size: 2.0em;
+    font-size: 60px;
+}
+
+#title {
+    float: left;
+    width: 160px;
+}
+
+#tagline {
+    margin-top: 15px;
+    font-size: 0.7em;
+    font-style: italic;
+}
+
+#search_box {
+    clear: both;
 }
 
 #search {
