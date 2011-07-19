@@ -24,6 +24,7 @@ var curr_speed = parseInt(speeds.length / 2);
 var plot1, plot2;
 var current_gender_data;
 var current_api_data;
+var loadUrl = "proxy.php";
 
 var defaultStyle = new OpenLayers.Style({
                             graphicName: "circle",
@@ -539,7 +540,8 @@ function startSearch() {
 }
 
 function randomSearch() {
-    $("#search_page").fadeOut(1500);
+    //$("#search_page").fadeOut(1500);
+    /*
     var url = "http://"+$("#lang_select1").val()+".wikipedia.org/w/api.php?action=query&list=recentchanges&rclimit=100&rcprop=sizes|title&rcnamespace=0&format=json&callback=?";
     $.getJSON(url, function(data) {
         var articles = [];
@@ -561,8 +563,21 @@ function randomSearch() {
         }
         else {
              rand = short_articles[Math.floor(Math.random() * short_articles.length)];
+        }*/
+    $.ajax({
+        url: loadUrl + "?url=" + "http://stats.wikimedia.org/"+main_lang().toUpperCase()+"/TablesWikipediaArticleEdits"+main_lang().toUpperCase()+".htm",
+        success: function(data) {
+            var reg = /e\(\d+,\d+,\d+,\d+,".+?","(.+?)"\)/g;
+            var match;
+            var res = [];
+            while (match = reg.exec(data)) {
+                if (match[1].search(/\:/) === -1) {
+                    res.push(match[1]);
+                }
+            }
+            var rand = res[Math.floor(Math.random() * res.length)];
+            $.History.go("|"+$("#lang_select1").val()+"|"+encodeURI(rand.replace(/\s+/g, "_")));
         }
-        $.History.go("|"+$("#lang_select1").val()+"|"+encodeURI(rand.replace(/\s+/g, "_")));
     });
 }
 
@@ -607,7 +622,7 @@ function animateBar() {
                 clearInterval(timerId);
                 timerId = undefined;
             }
-        }, 1500);
+        }, 1000);
     }
 }
 
