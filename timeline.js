@@ -133,7 +133,8 @@ function createDisplayLayer() {
                     // map data
                     var p = f[i].geometry.coordinates;
                     var point = new OpenLayers.Geometry.Point(p[0], p[1]);
-                    point.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                    point.transform(new OpenLayers.Projection("EPSG:4326"),
+                                    new OpenLayers.Projection("EPSG:900913"));
                     features.push(new OpenLayers.Feature.Vector(point));
                 }
             }
@@ -389,7 +390,8 @@ function updateAutoComplete() {
 function change_function(e, ui) {
     if (display_layer) {
         if (ui) {
-            past_seconds = Math.ceil(firstedit + (currentDate-firstedit)*(ui.value / 100.0));
+            past_seconds = Math.ceil(firstedit +
+                           (currentDate-firstedit)*(ui.value / 100.0));
         }
         if (!$("#incremental").attr("checked")) {
             lowerlimit = past_seconds - timedelta;
@@ -407,7 +409,8 @@ function change_function(e, ui) {
     }
     if (current_geojson_data) {
         var d = new Date(past_seconds*1000);
-        $("#shortdesc").html("History of the page \""+article_name+"\" @ "+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
+        $("#shortdesc").html("History of the page \""+article_name+"\" @ "+
+                             d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
         createPlot();
     }
     createGenderPlot();
@@ -484,7 +487,8 @@ function onLoad() {
 
 function initmap(seconds) {
     //$("#shortdesc").html("Loading data...Please wait...");
-    var url = "http://toolserver.org/~sonet/api_geojson.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&callback=?";
+    var url = "http://toolserver.org/~sonet/api_geojson.php?article="+
+              encodeURI(article_name)+"&lang="+main_lang()+"&callback=?";
     $.getJSON(url, function(data) {
         $("#loading").fadeOut("slow");
         $("#shortdesc").html('Data loaded!');
@@ -493,7 +497,8 @@ function initmap(seconds) {
         createPlot();
         $("#slider-id").slider({ disabled: false });
         if (past_seconds - firstedit > 0) {
-            $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));
+            $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit)
+                                            / (currentDate-firstedit)) * 100));
         }
 
         if (!seconds) {
@@ -505,7 +510,8 @@ function initmap(seconds) {
         }
     });
 
-    url = "http://toolserver.org/~sonet/api_gender.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&callback=?"
+    url = "http://toolserver.org/~sonet/api_gender.php?article="+
+          encodeURI(article_name)+"&lang="+main_lang()+"&callback=?"
     $.getJSON(url, function(data) {
         current_gender_data = data;
         createGenderPlot();
@@ -540,32 +546,11 @@ function startSearch() {
 }
 
 function randomSearch() {
-    //$("#search_page").fadeOut(1500);
-    /*
-    var url = "http://"+$("#lang_select1").val()+".wikipedia.org/w/api.php?action=query&list=recentchanges&rclimit=100&rcprop=sizes|title&rcnamespace=0&format=json&callback=?";
-    $.getJSON(url, function(data) {
-        var articles = [];
-        var short_articles = [];
-        $.each(data.query.recentchanges, function(elem) {
-            var art = data.query.recentchanges[elem]
-            if (art.type == "edit") {
-                if (art.newlen >= 80000) {
-                    articles.push(art.title);
-                }
-                else {
-                    short_articles.push(art.title);
-                }
-            }
-        });
-        var rand;
-        if (articles.length) {
-            rand = articles[Math.floor(Math.random() * articles.length)];
-        }
-        else {
-             rand = short_articles[Math.floor(Math.random() * short_articles.length)];
-        }*/
+    $("#search_page").fadeOut(1500);
+    $("#loading_page").hide(0);
+    var lang = $("#lang_select1").val().toUpperCase();
     $.ajax({
-        url: loadUrl + "?url=" + "http://stats.wikimedia.org/"+main_lang().toUpperCase()+"/TablesWikipediaArticleEdits"+main_lang().toUpperCase()+".htm",
+        url: loadUrl + "?url=" + "http://stats.wikimedia.org/"+lang+"/TablesWikipediaArticleEdits"+lang+".htm",
         success: function(data) {
             var reg = /e\(\d+,\d+,\d+,\d+,".+?","(.+?)"\)/g;
             var match;
@@ -576,6 +561,7 @@ function randomSearch() {
                 }
             }
             var rand = res[Math.floor(Math.random() * res.length)];
+            $("#loading_page").fadeIn("fast");
             $.History.go("|"+$("#lang_select1").val()+"|"+encodeURI(rand.replace(/\s+/g, "_")));
         }
     });
@@ -585,7 +571,8 @@ function getData(seconds) {
     loadingTip();
     $("#article_name").text(article_name);
     $("#loading").fadeIn("slow");
-    var url = "http://toolserver.org/~sonet/api.php?article="+encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
+    var url = "http://toolserver.org/~sonet/api.php?article="+
+              encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
     $.getJSON(url, function(data) {
         current_api_data = data;
         if (data.first_edit) {

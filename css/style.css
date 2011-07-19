@@ -65,10 +65,17 @@ input, select {
     margin-left: 5px;
     margin-right: 5px;
     background-color: #EEE;
+    height: 30px;
+    vertical-align:middle;
 }
 
 select {
     padding-top: 5px;
+}
+
+input[type=button] {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #sp_content input[type=button] {
@@ -122,10 +129,13 @@ div#loading {
 }
 
 #loading_tip {
-    margin-top: 40%;
     font-style: italic;
     font-size: 1.0em;
     text-align: center;
+    width: 60%;
+    margin-top: 36%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 div#main_page {
@@ -145,7 +155,7 @@ div#header {
 
 #title, #page_title {
     margin-bottom: 5px;
-    font-size: 1.7em;
+    font-size: 1.6em;
     text-shadow: 0 0 1px #333;
     color: #eaa228;
     text-transform: uppercase;
@@ -156,9 +166,9 @@ div#header {
     font-size: 2.0em;
 }
 
-select, input {
-    height: 30px;
-    vertical-align:middle;
+#search {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #incremental_container {
