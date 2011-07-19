@@ -531,6 +531,14 @@ function mapTips() {
     $('#source').trigger('mouseover');
     setTimeout(function () { $('#source').trigger('mouseout') }, 5000);
 
+    $('#plot').bubbletip($('#plot_tip'), {deltaDirection:'down'});
+    $('#plot').trigger('mouseover');
+    setTimeout(function () { $('#plot').trigger('mouseout') }, 5000);
+
+    $('#gender_stats').bubbletip($('#right_plot_tip'));
+    $('#gender_stats').trigger('mouseover');
+    setTimeout(function () { $('#gender_stats').trigger('mouseout') }, 5000);
+
     show_tips = false;
 }
 
