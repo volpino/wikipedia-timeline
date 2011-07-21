@@ -558,7 +558,7 @@ function randomSearch() {
     $("#loading_page").hide(0);
     var lang = $("#lang_select1").val().toUpperCase();
     $.ajax({
-        url: loadUrl + "?url=" + "http://stats.wikimedia.org/"+lang+"/TablesWikipediaArticleEdits"+lang+".htm",
+        url: loadUrl + "?url=" + "http://stats.wikimedia.org/EN/TablesWikipediaArticleEdits"+lang+".htm",
         success: function(data) {
             var reg = /e\(\d+,\d+,\d+,\d+,".+?","(.+?)"\)/g;
             var match;

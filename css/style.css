@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Merriweather&subset=latin&v2);
+@import url(http://fonts.googleapis.com/css?family=Tienne&subset=latin&v2);
 /* @font-face kit by Fonts2u (http://www.fonts2u.com) */ @font-face {font-family:"1960s Hippie";src:url("1960s_Hippie.eot?") format("eot"),url("1960s_Hippie.woff") format("woff"),url("1960s_Hippie.ttf") format("truetype"),url("1960s_Hippie.svg#1960sHippie") format("svg");font-weight:normal;font-style:normal;}
 
 * {
@@ -6,7 +6,7 @@
     margin: 0;
     z-index: 0;
     position: relative;
-    font-family: 'Merriweather', georgia, serif;
+    font-family: 'Tienne', georgia, serif;
     text-shadow: 0 0 1px #777;
 }
 
@@ -27,7 +27,7 @@ body {
             StartColorStr='#424242', EndColorStr='#F5F5F5', GradientType=0);
 }
 
-div, p {
+div, p, blockquote {
     color: #FFF;
     font-size: 1.0em;
 }
@@ -56,9 +56,13 @@ div#sp_content {
     height: 60%;
 }
 
-#sp_content p {
+#sp_content blockquote {
     font-size: 1.1em;
     text-shadow: 0 0 1px #BBB;
+    width: 500px;
+    height: 60px;
+    margin: auto;
+    padding-bottom: 10px;
 }
 
 input, select {
@@ -166,6 +170,7 @@ div#header {
 
 #page_title {
     font-size: 60px;
+    margin-bottom: 2%;
 }
 
 #title {
@@ -399,4 +404,21 @@ a {
 
 .content p {
     color: #111;
+}
+
+.bqstart {
+    float: left;
+    font-size: 400%;
+    height: 80%;
+    color: #eaa228;
+    top: -25px;
+}
+
+
+.bqend {
+    float: right;
+    font-size: 400%;
+    height: 80%;
+    color: #eaa228;
+    top: -5px;
 }
