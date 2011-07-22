@@ -547,6 +547,8 @@ function startSearch() {
         $("#search").val($("#search1").val());
         $("#lang_select").val($("#lang_select1").val());
     }
+    $("#search").unautocomplete();
+    $("#search1").unautocomplete();
     if ($("#search").val()) {
         $("#search_page").fadeOut(1500);
         $.History.go("|"+$("#lang_select").val()+"|"+encodeURI($("#search").val().replace(/\s+/g, "_")));
@@ -585,6 +587,7 @@ function getData(seconds) {
         current_api_data = data;
         if (data.first_edit) {
             clearMap();
+            updateAutoComplete();
             firstedit = data.first_edit.timestamp;
             if (seconds) {
                 past_seconds = seconds;
