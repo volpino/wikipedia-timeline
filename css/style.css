@@ -93,6 +93,9 @@ input[type=button] {
 div#sp_footer {
     text-align: center;
     font-style: italic;
+    font-size: 0.8em;
+    width: 70%;
+    margin: auto;
 }
 
 div#loading {
@@ -329,7 +332,7 @@ a.button:hover {
 #footer {
     text-align: center;
     font-style: italic;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 textarea {
@@ -402,8 +405,12 @@ a {
     color: #424242;
 }
 
+.content {
+    color: #222;
+}
+
 .content p {
-    color: #111;
+    color: #222;
 }
 
 .bqstart {

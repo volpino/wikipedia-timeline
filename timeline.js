@@ -859,6 +859,8 @@ $(document).ready(function () {
 
     $("#search1").clickOnEnter("#search1_btn");
     $("#search").clickOnEnter("#search_btn");
+
+    $('a[rel*=facebox]').facebox()
 });
 
     /*$(document).keypress(function(e){

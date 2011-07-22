@@ -104,7 +104,9 @@
                     <input type="button" id="search1_btn" value="Search" onclick="startSearch();" />
                     <input type="button" value="Random article" onclick="randomSearch();" />
                 </div>
-                <div id="sp_footer">Powered by SoNet</div>
+                <div id="sp_footer">
+                    <p>WikiTrip is a project of <a href="http://www.gnuband.org">Paolo Massa</a> and <a href="http://autistici.org/fox/">Federico "fox" Scrinzi</a> of <a href="http://sonet.fbk.eu">SoNet group at FBK</a>. We love but are not affiliated with Wikipedia. WikiTrip content is released under <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike License</a>.<img alt="CC" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /> <a href="about.html" rel="facebox">Read more</a>.</p>
+                </div>
         </div>
         <div id="loading">
             <p id="dotdot"></p>
@@ -205,7 +207,7 @@
                 <a id="permalink" onclick="getPermalink();" href="javascript:void(0)">Get permalink of this page!</a>
             </div>
             <div id="footer">
-                Powered by SoNet
+                <p>WikiTrip is a project of <a href="http://www.gnuband.org">Paolo Massa</a> and <a href="http://autistici.org/fox/">Federico "fox" Scrinzi</a> of <a href="http://sonet.fbk.eu">SoNet group at FBK</a>. <a style="padding-left:10px;" href="about.html" rel="facebox">Read more</a>.</p>
             </div>
         </div>
         <div id="player">
@@ -242,10 +244,12 @@
         </div>
         <div style="display:none">
             <p class="load_tip">If you uncheck the "Cumulative" box you'll get an instantaneous view of the data</p>
-            <p class="load_tip">The map shows only anonymous edits because it's not possible to trace registered users (because of Wikipedia's policy too)</p>
-            <p class="load_tip">The "Top Countries" chart shows data of anonymous edits (like the map)</p>
+            <p class="load_tip">The map shows only anonymous edits because it's not possible to trace registered users (even because of Wikipedia's policy)</p>
+            <p class="load_tip">The "Top Countries" chart shows data of anonymous edits because it's not possible to trace registered users</p>
             <p class="load_tip">At the bottom of the page there are some useful links. You can see the source article or compare the page on Manypedia!</p>
-            <p class="load_tip">The permalink stores the state of the page at the date that you're viewing! So you can share interesting spikes of edits with other people</p>
+            <p class="load_tip">The permalink stores the state of the page at the date that you're viewing! So you can share interesting time slices with other people</p>
+            <p class="load_tip">You can share interesting queries with friends using the share bar in the bottom right of the page</p>
+            <p class="load_tip">This service is powered by Toolserver.org, there's a public API available if you want to integrate it in your application</p>
         </div>
     </body>
 </html>
