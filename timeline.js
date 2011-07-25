@@ -1,3 +1,12 @@
+/**
+  * Copyright (C) 2008, 2009 FBK Foundation, (http://www.fbk.eu)
+  * Author: Federico Scrinzi @ SoNet Group
+  *
+  * WikiTrip is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as published by
+  * the Free Software Foundation version 3 of the License.
+  */
+
 var map;
 var past_seconds = 0;
 var firstedit;
@@ -298,7 +307,7 @@ function createCountryPlot(countries, max) {
         return false;
     }
     plot2 = $.jqplot('countries_stats', [bars], {
-        title: "Top Countries (anon edits only)",
+        title: "Edits by country (anonymous users)",
         series:[{renderer:$.jqplot.BarRenderer,
                  rendererOptions: {varyBarColor:true}}],
         axesDefaults: {
@@ -348,7 +357,7 @@ function createGenderPlot() {
     $("#gender_stats").empty();
     var plot3 = $.jqplot('gender_stats', [[["male", lines.male],
                                           ["female", lines.female]]], {
-        title: "Gender stats (users only)",
+        title: "Edits by Gender (registered users)",
         series:[{renderer:$.jqplot.BarRenderer,
                  rendererOptions: { varyBarColor: true },
                  pointLabels: { show: true }}],
