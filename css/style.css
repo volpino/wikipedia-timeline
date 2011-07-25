@@ -151,7 +151,7 @@ div#main_page {
     height: 100%;
     width: 93%;
     margin: auto;
-    overflow: hidden;
+    overflow: auto;
 }
 
 div#header {
