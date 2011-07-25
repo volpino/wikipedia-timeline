@@ -176,7 +176,7 @@ function createPlotData() {
 
     max = 0;
     max_rel = 0;
-
+    var first_day = (new Date(firstedit*1000)).getDate();
     if (current_api_data && current_api_data.year_count) {
         var f = current_api_data.year_count;
         var date;
@@ -185,7 +185,16 @@ function createPlotData() {
         var anon_cum = 0;
         $.each(f, function(year, value) {
             $.each(value.months, function(month, count_data) {
-                date = year+"/"+month+"/15";
+                date = year+"/"+month+"/"+first_day;
+                if (line.length === 0) {
+                    var first_point = first_day-1;
+                    var first_point = year+"/"+month+"/"+first_point;
+                    line.push([first_point, 0]);
+                    line_rel.push([first_point, 0]);
+                    line_all.push([first_point, 0]);
+                    line_all_rel.push([first_point, 0]);
+                }
+
                 anon = count_data.anon;
                 anon_cum += anon;
 
@@ -200,6 +209,15 @@ function createPlotData() {
                 max_rel = Math.max(max_rel, anon, c);
             });
         });
+        // complete arrays with last point
+        line.push([line[line.length-1][0]+200,
+                   line[line.length-1][1]]);
+        line_rel.push([line_rel[line_rel.length-1][0]+200,
+                       line_rel[line_rel.length-1][1]]);
+        line_all.push([line_all[line_all.length-1][0]+200,
+                       line_all[line_all.length-1][1]]);
+        line_all_rel.push([line_all_rel[line_all_rel.length-1][0]+200,
+                           line_all_rel[line_all_rel.length-1][1]]);
     }
 }
 
@@ -238,7 +256,7 @@ function createPlot() {
                     {lineWidth:1, color:'#FF0000', showMarker:false}],
             axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer,
                          tickOptions:{formatString:'%d/%m/%y'},
-                         min: (new Date(firstedit*1000)).toGMTString(),
+                         min: (new Date((firstedit-86400)*1000)).toGMTString(),
                          max: (new Date(currentDate*1000)).toGMTString(),
                          label:'Time',
                          labelRenderer: $.jqplot.CanvasAxisLabelRenderer},
