@@ -97,6 +97,9 @@ function clearMap() {
     $('#search1').removeBubbletip();
     $('#search').removeBubbletip();
     $('#source').removeBubbletip();
+    $('#stats').removeBubbletip();
+    $('#plot').removeBubbletip();
+    $("#gender_stats").empty();
 }
 
 function resetPlay() {
@@ -304,8 +307,9 @@ function createCountryPlot(countries, max) {
         bars.push([k, v]);
     });
     if (bars.length==0) {
-        return false;
+        bars = [["None", 0]];
     }
+
     plot2 = $.jqplot('countries_stats', [bars], {
         title: "Edits by country (anonymous users)",
         series:[{renderer:$.jqplot.BarRenderer,
@@ -560,11 +564,11 @@ function mapTips() {
 
     $('#plot').bubbletip($('#plot_tip'), {deltaDirection:'down'});
     $('#plot').trigger('mouseover');
-    setTimeout(function () { $('#plot').trigger('mouseout') }, 5000);
+    setTimeout(function () { $('#plot').trigger('mouseout') }, 5100);
 
-    $('#gender_stats').bubbletip($('#right_plot_tip'));
-    $('#gender_stats').trigger('mouseover');
-    setTimeout(function () { $('#gender_stats').trigger('mouseout') }, 5000);
+    $('#stats').bubbletip($('#right_plot_tip'), {deltaDirection: 'left'});
+    $('#stats').trigger('mouseover');
+    setTimeout(function () { $('#stats').trigger('mouseout') }, 5000);
 
     show_tips = false;
 }
@@ -628,6 +632,7 @@ function getData(seconds) {
         else {
             $.facebox("<p>We're sorry!</p><p>The page you requested has not been found!</p>");
             $("#search_page").fadeIn("fast");
+            updateAutoComplete();
         }
     });
 }

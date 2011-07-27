@@ -175,7 +175,7 @@
                     <option value="yi">Yiddish Wikipedia</option>
                     </select>
 
-                    <input type="text" name="search" id="search" /><input type="button" id="search_btn" value="Search" onclick="startSearch();" />
+                    <input type="text" name="search" id="search" /><input type="button" id="search_btn" value="Search" onclick="startSearch();" />                        <input type="button" id="random_btn" value="Random" onclick="randomSearch();" />
                     <div id="incremental_container">
                         <label for="incremental">Cumulative</label><input type="checkbox" checked="checked" name="incremental" value="Incremental" id="incremental" />
                     </div>
@@ -183,18 +183,20 @@
             </div>
             <div id="plot"></div>
             <div id="content">
-                <p id="help">
-                    <a href="javascript:void(0)" onclick="getHelp();">Help</a>
-                </p>
-                <p id="speed">Speed: <span id="curr_speed"></span></p>
-                <a id="fastbutton" class="button">Faster</a>
-                <a id="slowbutton" class="button">Slower</a>
-                <a id="playbutton" class="button">Pause / Play</a>
-                <p id="shortdesc">
-                    Loading...
-                </p>
-                <div id="slider-id">
-                    <div class="ui-slider-handle"></div>
+                <div id="slider_container">
+                    <p id="help">
+                        <a href="javascript:void(0)" onclick="getHelp();">Help</a>
+                    </p>
+                    <p id="speed">Speed: <span id="curr_speed"></span></p>
+                    <a id="fastbutton" class="button">Faster</a>
+                    <a id="slowbutton" class="button">Slower</a>
+                    <a id="playbutton" class="button">Pause / Play</a>
+                    <p id="shortdesc">
+                        Loading...
+                    </p>
+                    <div id="slider-id">
+                        <div class="ui-slider-handle"></div>
+                    </div>
                 </div>
                 <div id="stats">
                     <div id="countries_stats"></div>
@@ -227,7 +229,13 @@
             <p>You can search a Wikipedia article using this form :D</p>
         </div>
         <div id="tip_main_page" class="tip">
-            <p>This page is showing you a timeline of a Wikipedia article</p>
+            <p>Wiki Trip lets you visit the history of a Wikipedia page</p>
+            <p>and get to know some interesting stats.<br/></p>
+            <p>You can use the slider to go back or forward in time, the</p>
+            <p>buttons on the left to play/pause or adjust the animation speed</p>
+            <p>The map will show you where the anonymous edits came from</p>
+            <p>If you want to go on and visit the history of another page</p>
+            <p>use the search form or click the "Random" button!</p>
         </div>
         <div id="tip_links" class="tip">
             <p>
@@ -237,23 +245,28 @@
             </p>
         </div>
         <div id="plot_tip" class="tip">
-            <p>
-                Edits plot
-            </p>
+            <p>This plot shows two time series of edits of the page</p>
+            <p>One shows the edits by registered users while the other one</p>
+            <p>by anonymous users</p>
         </div>
         <div id="right_plot_tip" class="tip">
-            <p>
-                Top countries plot and gender plot
-            </p>
+            <p>Here you can make up your mind about which countries</p>
+            <p>anonymously edited the page most or wether the</p>
+            <p>registered users that contributed are most females</p>
+            <p>or males</p>
         </div>
         <div style="display:none">
             <p class="load_tip">If you uncheck the "Cumulative" box you'll get an instantaneous view of the data</p>
-            <p class="load_tip">The map shows only anonymous edits because it's not possible to trace registered users (even because of Wikipedia's policy)</p>
-            <p class="load_tip">The "Top Countries" chart shows data of anonymous edits because it's not possible to trace registered users</p>
+            <p class="load_tip">The map shows only anonymous edits because it's not possible to trace registered users</p>
+            <p class="load_tip">The "Edits by country" chart shows data of anonymous edits because it's not possible to trace registered users</p>
             <p class="load_tip">At the bottom of the page there are some useful links. You can see the source article or compare the page on Manypedia!</p>
             <p class="load_tip">The permalink stores the state of the page at the date that you're viewing! So you can share interesting time slices with other people</p>
             <p class="load_tip">You can share interesting queries with friends using the share bar in the bottom right of the page</p>
             <p class="load_tip">This service is powered by Toolserver.org, there's a public API available if you want to integrate it in your application</p>
+            <p class="load_tip">If you don't know what to search just click the "Random" button!</p>
+            <p class="load_tip">The big red bubbles on the map gather a lot of edits. You can click on them to know how many edits there are in that area</p>
+            <p class="load_tip">On Wikipedia not all users specify their gender, the "Edits by Gender" chart shows data of users that decided to do it</p>
+            <p class="load_tip">If you are unsure about the title of an article the autocomplete function will help you!</p>
         </div>
 
         <script type="text/javascript">
