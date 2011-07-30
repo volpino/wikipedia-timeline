@@ -1,1 +1,92 @@
-This is the about page
+<h3>What is Wiki Trip about?</h3>
+<p></p>
+
+<h3>What is Wiki Trip useful for?</h3>
+<p></p>
+
+<h3>What are the plots showing?</h3>
+<p></p>
+
+<h3>Which data is Wiki Trip using?</h3>
+<p>Wiki Trip uses data from <a href="http://toolserver.org">Toolserver</a>.
+Using a Toolserver account is possible to access to a restricted copy of
+the Wikipedia database.</p>
+<p>We developed some simple APIs to retrieve data from the Toolserver database:</p>
+<ul>
+  <li>
+    <p><a href="http://toolserver.org/~sonet/api.php">api.php</a></p>
+    <p>Get various stats about a page</p>
+    <p>Options:</p>
+    <ul>
+      <li>article: page title</li>
+      <li>lang: desidered language (default: en)</li>
+      <li>family: wiki family (default: wikipedia)</li>
+      <li>year_count: show edit count per month (default: false)</li>
+      <li>editors: show unique editors for the page (default: false)</li>
+      <li>max_editors: maximum number of editors displayed (only if "editors" option is set)</li>
+      <li>anons: show anonymous unique editors (default: false)</li>
+      <li>top_ten: show top 10% of editors (default: false)</li>
+      <li>top_fifty: top 50 editors (default: false)</li>
+    </ul>
+    <p><a href="http://toolserver.org/~sonet/api.php?article=London&lang=en&editors&max_editors=5">Example</a></p>
+  </li>
+  <li>
+    <a href="http://toolserver.org/~sonet/api_gender.php">api_gender.php</a>
+    <p>Get timestamp and gender for any edit by a registered user that specified his gender on a specific page (might be quite slow)</p>
+    <p>Options:</p>
+    <ul>
+      <li>article: page title</li>
+      <li>lang: desidered language (default: en)</li>
+      <li>family: wiki family (default: wikipedia)</li>
+    </ul>
+    <p><a href="http://toolserver.org/~sonet/api_gender.php?article=London&lang=en">Example</a></p>
+  </li>
+  <li>
+    <a href="http://toolserver.org/~sonet/api_geojson.php">api_geojson.php</a>
+    <p>Get a GeoJSON for anonymous edits on a specific page</p>
+    <p>Options:</p>
+    <ul>
+      <li>article: page title</li>
+      <li>lang: desidered language (default: en)</li>
+      <li>family: wiki family (default: wikipedia)</li>
+    </ul>
+    <p><a href="http://toolserver.org/~sonet/api_geojson.php?article=London&lang=en">Example</a></p>
+  </li>
+</ul>
+<p>Note: The API's output is in JSON format</p>
+<p>The APIs are open source and much code has been taken from
+<a href="http://toolserver.org/~soxred93/articleinfo/">Xi!'s articleinfo</a>.
+We thank Xi a lot for his awesome work!
+</p>
+<p>If you're interested you can find the source code
+<a href="https://github.com/volpino/toolserver-scripts/tree/master/php">here on Github</a></p>
+
+<h3>Wiki Trip is free software!</h3>
+<p>
+Wiki Trip is developed by <a target="_blank" href="http://autistici.org/fox">Federico "fox" Scrinzi</a>.
+The source code is released under the terms of the <a target="_blank" href="http://www.gnu.org/licenses/agpl-3.0.html">
+GNU Affero General Public License</a> and you can find the
+<a href="https://github.com/volpino/wikipedia-timeline">repository on Github</a>. 
+If you are interested in contributing please fork it!
+</p>
+
+<h3>I have a suggestion for improving Wiki Trip. Are you interested?</h3>
+<p>Absolutely! You can send suggestions and bug reports at sonet at
+fbk dot eu or through <a target="_blank" href="https://github.com/volpino/wikipedia-timeline">Github</a>.
+And, as Wikipedians puts it,
+<a target="_blank" href="http://en.wikipedia.org/wiki/Wikipedia:Be_bold">Be bold</a>! ;)</p>
+
+<h3>What is Wikipedia?</h3>
+<p><a target="_blank" href="http://www.wikipedia.org">The most amazing thing ever</a>! Actually we agree with Randall Munroe of <a target="_blank" href="http://xkcd.com/">Xkcd</a> that it's so easy to end productivity when you enter on <a target="_blank" href="http://www.wikipedia.org">Wikipedia.org</a> and, <a target="_blank" href="http://xkcd.com/">three Hours of Fascinated Clicking Later</a>, you find yourself having learnt about so many new concepts (but not having your work done ;)</p>
+<p><a target="_blank" href="http://xkcd.com/214/"><img src="http://imgs.xkcd.com/comics/the_problem_with_wikipedia.png" /></a></p>
+<p>What we find amazing is that, at 31 March 2011, 68,943,830 pages (of which, 18,284,271 are articles) have been created by 28,328,543 Wikipedians (of which 4,839 are administrators) with a grand total of 1,095,819,060 edits (<a target="_blank" href="http://meta.wikimedia.org/wiki/Complete_list_of_language_Wikipedias_ordered_by_size#Grand_Total">source</a>)!</p>
+<p>If 10 years ago, we would have been to tell you "I think it is possible and it is going to happen that in 2011 the volunteer work of 30 million people will be able to create a free-for-everyone encyclopedic resource whose <a target="_blank" href="http://www.nature.com/news/2005/051212/full/438900a.html">quality is comparable with Britannica</a>", you would have laughed at us.</p>
+<p>Well, what we like about Wikipedia the most is that it is there to testify and demonstrate that humans can get together to create fantastic commons and resources free for everyone!</p>
+
+<h3>Contact us and share</h3>
+<p>If you like Wiki Trip, if you don't like it or if you want to fill
+a bug report please tell us!</p>
+<p>You can contact us by email at sonet AT fbk DOT eu.</p>
+<p>If you want to share a trip inside Wikipedia with friends generate a
+permalink and share it through social networks or simply use the share
+bar at the bottom of the page.</p>

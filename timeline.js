@@ -67,6 +67,14 @@ function getHelp() {
     mapTips();
 }
 
+function removeBubbletip() {
+    $('#search1').removeBubbletip();
+    $('#search').removeBubbletip();
+    $('#source').removeBubbletip();
+    $('#stats').removeBubbletip();
+    $('#plot').removeBubbletip();
+}
+
 function clearMap() {
     if (display_layer) {
         map.removeLayer(display_layer);
@@ -94,11 +102,7 @@ function clearMap() {
     interval = 5;
     curr_speed = parseInt(speeds.length / 2);
     updateSpeed();
-    $('#search1').removeBubbletip();
-    $('#search').removeBubbletip();
-    $('#source').removeBubbletip();
-    $('#stats').removeBubbletip();
-    $('#plot').removeBubbletip();
+    removeBubbletip();
     $("#gender_stats").empty();
 }
 
@@ -199,8 +203,8 @@ function createPlotData() {
             $.each(value.months, function(month, count_data) {
                 date = year+"/"+month+"/"+first_day;
                 if (line.length === 0) {
-                    var first_point = first_day-1;
-                    var first_point = year+"/"+month+"/"+first_point;
+                    var first_point = year+"/"+month+"/"+(first_day-1);
+                    console.log(first_point);
                     line.push([first_point, 0]);
                     line_rel.push([first_point, 0]);
                     line_all.push([first_point, 0]);
@@ -222,14 +226,11 @@ function createPlotData() {
             });
         });
         // complete arrays with last point
-        line.push([line[line.length-1][0]+200,
-                   line[line.length-1][1]]);
-        line_rel.push([line_rel[line_rel.length-1][0]+200,
-                       line_rel[line_rel.length-1][1]]);
-        line_all.push([line_all[line_all.length-1][0]+200,
-                       line_all[line_all.length-1][1]]);
-        line_all_rel.push([line_all_rel[line_all_rel.length-1][0]+200,
-                           line_all_rel[line_all_rel.length-1][1]]);
+        date = (new Date(currentDate*1000)).toGMTString()
+        line.push([date, line[line.length-1][1]]);
+        line_rel.push([date, line_rel[line_rel.length-1][1]]);
+        line_all.push([date, line_all[line_all.length-1][1]]);
+        line_all_rel.push([date, line_all_rel[line_all_rel.length-1][1]]);
     }
 }
 
@@ -580,6 +581,7 @@ function startSearch() {
     }
     $("#search").unautocomplete();
     $("#search1").unautocomplete();
+    removeBubbletip();
     if ($("#search").val()) {
         $("#search_page").fadeOut(1500);
         $.History.go("|"+$("#lang_select").val()+"|"+encodeURI($("#search").val().replace(/\s+/g, "_")));
@@ -590,6 +592,7 @@ function randomSearch() {
     $("#search_page").fadeOut(1500);
     $("#loading_page").hide(0);
     var lang = $("#lang_select1").val().toUpperCase();
+    removeBubbletip();
     $.ajax({
         url: loadUrl + "?url=" + "http://stats.wikimedia.org/EN/TablesWikipediaArticleEdits"+lang+".htm",
         success: function(data) {
