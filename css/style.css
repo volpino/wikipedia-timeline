@@ -158,11 +158,12 @@ div#loading {
     font-size: 1.0em;
     text-align: center;
     width: 60%;
-    top: 50%;
+    top: 55%;
     margin-top: 100px;
     margin-left: 20%;
     margin-right: 20%;
     position: fixed;
+    font-size: 0.9em;
 }
 
 div#main_page {

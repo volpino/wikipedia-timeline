@@ -184,6 +184,7 @@ function createDisplayLayer() {
 }
 
 function createPlotData() {
+    console.log(firstedit);
     line = [];
     line_rel = [];
 
