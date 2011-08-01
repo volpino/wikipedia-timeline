@@ -278,14 +278,6 @@ function createPlot() {
                          tickOptions: {formatString:'%d'},
                          label:'Edits',
                          labelRenderer: $.jqplot.CanvasAxisLabelRenderer}},
-            highlighter: {
-                show: false
-            },
-            cursor: {
-                show: true,
-                zoom: false,
-                showTooltip: false
-            },
             legend: {
                 show: true,
                 placement: 'outsideGrid'
@@ -614,6 +606,7 @@ function randomSearch() {
 function getData(seconds) {
     loadingTip();
     $("#article_name").text(article_name);
+    $("#lang").text(main_lang());
     $("#loading").fadeIn("slow");
     var url = "http://toolserver.org/~sonet/api.php?article="+
               encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
