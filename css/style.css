@@ -233,8 +233,13 @@ div#header {
     width: 80%;
 }
 
+#compare_span {
+    padding-left: 4%;
+}
+
 label {
     padding: 0.5%;
+    font-size: 0.8em;
 }
 
 div#plot {
@@ -450,6 +455,10 @@ a {
 }
 
 .content {
+    color: #222;
+}
+
+.content p {
     color: #222;
 }
 

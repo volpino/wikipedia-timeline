@@ -184,7 +184,6 @@ function createDisplayLayer() {
 }
 
 function createPlotData() {
-    console.log(firstedit);
     line = [];
     line_rel = [];
 
@@ -205,7 +204,6 @@ function createPlotData() {
                 date = year+"/"+month+"/"+first_day;
                 if (line.length === 0) {
                     var first_point = year+"/"+month+"/"+(first_day-1);
-                    console.log(first_point);
                     line.push([first_point, 0]);
                     line_rel.push([first_point, 0]);
                     line_all.push([first_point, 0]);
@@ -488,7 +486,7 @@ function onLoad() {
                  "political marble",
                  [ "http://de.straba.us/blue_marble_political/" ],
                  { 'layername': ".",
-                 'type': "png", minZoomLevel:1, numZoomLevels:8}));
+                 'type': "jpg", minZoomLevel:1, numZoomLevels:8}));
 
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MouseDefaults());
@@ -519,8 +517,8 @@ function initmap(seconds) {
         $("#shortdesc").html('Data loaded!');
         current_geojson_data = data;
         display_layer = createDisplayLayer();
-        createPlot();
         $("#slider-id").slider({ disabled: false });
+        createPlot();
         if (past_seconds - firstedit > 0) {
             $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit)
                                             / (currentDate-firstedit)) * 100));
@@ -607,7 +605,7 @@ function randomSearch() {
 function getData(seconds) {
     loadingTip();
     $("#article_name").text(article_name);
-    $("#lang").text(main_lang());
+    $("#lang").text(lang_set[main_lang()]);
     $("#loading").fadeIn("slow");
     var url = "http://toolserver.org/~sonet/api.php?article="+
               encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
@@ -631,6 +629,27 @@ function getData(seconds) {
             $("#search_page").fadeIn("fast");
             updateAutoComplete();
         }
+    });
+
+    // get langs
+    $.getJSON('http://'+main_lang()+'.wikipedia.org/w/api.php?format=json&action=query&prop=langlinks&lllimit=500&titles='+article_name+'&redirects&callback=?',
+    function(data) {
+        $("#compare").empty();
+        $("<option/>",
+            {value: "",
+             text: "..."}
+        ).appendTo("#compare");
+        $.each(data.query.pages, function(i,page) {
+            $.each(page.langlinks, function(k, lang) {
+                var lang_name = lang_set[lang.lang];
+                if (lang_name) {
+                    $("<option/>",
+                      {value: lang.lang + "|" + lang["*"],
+                       text: lang_name + " Wikipedia"}
+                      ).appendTo("#compare");
+                }
+            });
+        });
     });
 }
 
@@ -794,6 +813,7 @@ function attachWikiAutoComplete(expression, lang) {
 }
 
 $(document).ready(function () {
+    onLoad();
     if (!window.location.hash) {
         clearMap();
         $("#search_page").show(0);
@@ -890,6 +910,13 @@ $(document).ready(function () {
     $("#search").clickOnEnter("#search_btn");
 
     $('a[rel*=facebox]').facebox()
+
+    $('#compare').change(function() {
+        var data = $("#compare").val().split("|");
+        if (data) {
+            $.History.go("|"+data[0]+"|"+data[1]);
+        }
+    });
 });
 
     /*$(document).keypress(function(e){
