@@ -181,6 +181,10 @@ div#header {
     padding: 20px;
 }
 
+#header a {
+    text-decoration: none;
+}
+
 #title, #page_title {
     margin-bottom: 5px;
     font-size: 40px;
@@ -202,7 +206,7 @@ div#header {
 }
 
 #tagline {
-    margin-top: 15px;
+    top: 15px;
     font-size: 0.7em;
     font-style: italic;
 }

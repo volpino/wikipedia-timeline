@@ -104,6 +104,7 @@ function clearMap() {
     updateSpeed();
     removeBubbletip();
     $("#gender_stats").empty();
+    $(".ac_results").hide(0);
 }
 
 function resetPlay() {
@@ -504,6 +505,20 @@ function onLoad() {
                 past_seconds = Math.ceil(firstedit + (currentDate-firstedit)*(ui.value / 100.0));
                 createPlot();
             }
+            var d = new Date(past_seconds*1000);
+            d = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+            var tooltip = $("<div/>")
+                          .css({ position: 'absolute', top: "20px", left: "0px",
+                                 width: "80px", color: "#000", background:"#FFF",
+                                 boxShadow: "0px 0px 1px rgb(208, 208, 208)",
+                                 fontSize: "11px", textAlign: "center"})
+                          .text(d)
+            $("#slider-id").slider()
+                .find(".ui-slider-handle")
+                .append(tooltip)
+
+            setTimeout(function() { tooltip.remove(); }, 500);
+
         }
     });
 }
@@ -529,7 +544,7 @@ function initmap(seconds) {
         }
 
         if (show_tips) {
-            setTimeout("mapTips();", 2000);
+            setTimeout("helpTip();", 2000);
         }
     });
 
@@ -541,7 +556,21 @@ function initmap(seconds) {
     });
 }
 
+function helpTip() {
+    $('#help').bubbletip($('#help_tip'));
+    $('#help').trigger('mouseover');
+    setTimeout(function () {
+        $('#help').trigger('mouseout');
+        $('#help').removeBubbletip();
+    }, 5000);
+    show_tips = false;
+}
+
 function mapTips() {
+    $('#plot').bubbletip($('#plot_tip'), {deltaDirection:'down'});
+    $('#plot').trigger('mouseover');
+    setTimeout(function () { $('#plot').trigger('mouseout'); }, 5000);
+
     $('#search').bubbletip($('#tip_main_page'), {
         deltaDirection: 'down',
         bindShow: 'focus',
@@ -554,15 +583,13 @@ function mapTips() {
     $('#source').trigger('mouseover');
     setTimeout(function () { $('#source').trigger('mouseout') }, 5000);
 
-    $('#plot').bubbletip($('#plot_tip'), {deltaDirection:'down'});
-    $('#plot').trigger('mouseover');
-    setTimeout(function () { $('#plot').trigger('mouseout') }, 5100);
-
     $('#stats').bubbletip($('#right_plot_tip'), {deltaDirection: 'left'});
     $('#stats').trigger('mouseover');
     setTimeout(function () { $('#stats').trigger('mouseout') }, 5000);
 
     show_tips = false;
+    // FIXME
+    setTimeout(function () { $('#plot').removeBubbletip() }, 5000);
 }
 
 function startSearch() {

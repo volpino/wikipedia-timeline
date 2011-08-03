@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -124,7 +124,7 @@
         </div>
         <div id="main_page">
             <div id="header">
-                <a href="."><h1 id="title">Wiki Trip</h1><p id="tagline">Have a trip in the history of a Wikipedia page</p></a>
+                <a href="."><h1 id="title">Wiki Trip</h1><span id="tagline">Have a trip in the history of a Wikipedia page</span></a>
                 <div id="search_box">
                 <select id="lang_select" name="lang_select">
                     <option value="en">English Wikipedia</option>
@@ -185,7 +185,7 @@
                     <input type="text" name="search" id="search" /><input type="button" id="search_btn" value="Search" onclick="startSearch();" />                        <input type="button" id="random_btn" value="Random" onclick="randomSearch();" />
                     <div id="incremental_container">
                         <span id="incremental_span"><label for="incremental">Cumulative</label><input type="checkbox" checked="checked" name="incremental" value="Incremental" id="incremental" /></span>
-                        <span id="compare_span"><label for="compare">Visit the same page in the </label><select id="compare"></select></span>
+                        <span id="compare_span"><label for="compare">Visit the same page in the </label><select id="compare"><option value=""></option></select></span>
                     </div>
                 </div>
             </div>
@@ -265,6 +265,9 @@
             <p>edited the page most or wether the registered</p>
             <p>users that contributed are most females</p>
             <p>or males</p>
+        </div>
+        <div id="help_tip" class="tip">
+            <p>Click here to get some help!</p>
         </div>
         <div style="display:none">
             <p class="load_tip">If you uncheck the "Cumulative" box you'll get an instantaneous view of the data</p>
