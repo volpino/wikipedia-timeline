@@ -487,7 +487,7 @@ function onLoad() {
                  "political marble",
                  [ "http://de.straba.us/blue_marble_political/" ],
                  { 'layername': ".",
-                 'type': "jpg", minZoomLevel:1, numZoomLevels:8}));
+                 'type': "jpg", minZoomLevel:1, numZoomLevels:8, attribution: "NASA Blue Marble global composite satellite imagery, OpenStreetMap contributors CC-BY-SA"}));
 
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MouseDefaults());
@@ -495,6 +495,9 @@ function onLoad() {
     map.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
     $("#slider-id").slider({
+        range: "min",
+        min: 0,
+        max: 100,
         value: 0,
         disabled: true,
         change: change_function,
@@ -512,10 +515,10 @@ function onLoad() {
                                  width: "80px", color: "#000", background:"#FFF",
                                  boxShadow: "0px 0px 1px rgb(208, 208, 208)",
                                  fontSize: "11px", textAlign: "center"})
-                          .text(d)
+                          .text(d);
             $("#slider-id").slider()
                 .find(".ui-slider-handle")
-                .append(tooltip)
+                .append(tooltip);
 
             setTimeout(function() { tooltip.remove(); }, 500);
 
@@ -734,8 +737,8 @@ function fasterAnimation() {
     if (interval < 15) {
         interval += 2;
         if (curr_speed < speeds.length-1) {
+            curr_speed++;
         }
-        curr_speed++;
         updateSpeed();
         if (timerId) {
             stopBar();

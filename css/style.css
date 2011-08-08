@@ -454,6 +454,14 @@ a {
     color: #424242;
 }
 
+.olControlAttribution {
+    top: 95%;
+    color: #999;
+    font-family: "Arial";
+    font-size: 0.6em;
+    text-shadow: none;
+}
+
 .popup {
     margin-bottom: 50px;
 }
