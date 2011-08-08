@@ -72,7 +72,7 @@ function getStats() {
     var lang_id = main_lang();
     var first = new Date(data.first_edit.timestamp*1000);
     var last = new Date(data.last_edit*1000);
-    var res = "<div><h3>More stats for page \""+article_name+"\"</h3>"+
+    var res = "<div id='more_stats'><h3>More stats for page \""+article_name+"\"</h3>"+
               "<p>Total revisions: <b>"+data.count+"</b></p>"+
               "<p>Created on "+first.getDay()+"/"+first.getMonth()+"/"+
               first.getFullYear()+" by "+"<a target='_blank' href='http://"+

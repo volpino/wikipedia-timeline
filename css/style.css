@@ -468,7 +468,7 @@ a {
     color: #222;
 }
 
-.content div {
+.content div#more_stats {
     background-image: url('../images/1_content.png');
     background-repeat: no-repeat;
     background-position: 580px 330px;
