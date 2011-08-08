@@ -346,25 +346,23 @@ a.button:hover {
     background-color: #999; color: #fff;
 }
 
-#help {
+#more, #help {
     float: right;
-    margin-left: 10px;
+    margin-left: 20px;
     z-index: 1;
 }
 
-#help a {
+#more a, #help a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.95em;
+    font-size: 0.8em;
 }
 
 #speed {
     float: right;
-    margin-right: 10px;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-top: 4px;
     font-size: 0.8em;
-    width: 130px;
 }
 
 #source {
@@ -470,7 +468,15 @@ a {
     color: #222;
 }
 
-.content p {
+.content div {
+    background-image: url('../images/1_content.png');
+    background-repeat: no-repeat;
+    background-position: 580px 330px;
+    width: 800px;
+    height: 500px;
+}
+
+.content * {
     color: #222;
 }
 

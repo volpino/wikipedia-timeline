@@ -67,6 +67,30 @@ function getHelp() {
     mapTips();
 }
 
+function getStats() {
+    var data = current_api_data;
+    var lang_id = main_lang();
+    var first = new Date(data.first_edit.timestamp*1000);
+    var last = new Date(data.last_edit*1000);
+    var res = "<div><h3>More stats for page \""+article_name+"\"</h3>"+
+              "<p>Total revisions: <b>"+data.count+"</b></p>"+
+              "<p>Created on "+first.getDay()+"/"+first.getMonth()+"/"+
+              first.getFullYear()+" by "+"<a target='_blank' href='http://"+
+              lang_id+".wikipedia.org/wiki/User:"+data.first_edit.user+"'>"+
+              data.first_edit.user+"</a></p>"+
+              "<p>Last edit: "+last.getDay()+"/"+last.getMonth()+"/"+
+              last.getFullYear()+"</p>"+
+              "<p>Number of editors: <b>"+data.editor_count+"</b></p>"+
+              "<p><br/>Top 10 editors: </p><ul>";
+    $.each(data.editors, function(i, ed) {
+        res += "<li><a target='_blank' href='http://"+lang_id+
+               ".wikipedia.org/wiki/User:"+i+"'>"+i+"</a>"+" ("+ed.all+
+               ")</li>";
+    });
+    res += "</ul></div>";
+    $.facebox(res);
+}
+
 function removeBubbletip() {
     $('#search1').removeBubbletip();
     $('#search').removeBubbletip();
@@ -433,7 +457,7 @@ function change_function(e, ui) {
     }
     if (current_geojson_data) {
         var d = new Date(past_seconds*1000);
-        $("#shortdesc").html("History of the page \""+article_name+"\" @ "+
+        $("#shortdesc").html("\""+article_name+"\" @ "+
                              d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
         createPlot();
     }
@@ -638,7 +662,7 @@ function getData(seconds) {
     $("#lang").text(lang_set[main_lang()]);
     $("#loading").fadeIn("slow");
     var url = "http://toolserver.org/~sonet/api.php?article="+
-              encodeURI(article_name)+"&lang="+main_lang()+"&year_count&callback=?";
+              encodeURI(article_name)+"&lang="+main_lang()+"&year_count&editors&max_editors=10&callback=?";
     $.getJSON(url, function(data) {
         current_api_data = data;
         if (data.first_edit) {
