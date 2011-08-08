@@ -511,7 +511,7 @@ function onLoad() {
                  "political marble",
                  [ "http://de.straba.us/blue_marble_political/" ],
                  { 'layername': ".",
-                 'type': "jpg", minZoomLevel:1, numZoomLevels:8, attribution: "NASA Blue Marble global composite satellite imagery, OpenStreetMap contributors CC-BY-SA"}));
+                 'type': "jpg", minZoomLevel:1, numZoomLevels:8, attribution: "NASA Blue Marble global composite satellite imagery, political boundaries and cities from OpenStreetMap contributors CC-BY-SA"}));
 
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MouseDefaults());
