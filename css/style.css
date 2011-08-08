@@ -63,14 +63,14 @@ div#search_page {
 
 div#sp_content {
     text-align:center;
-    height: 58%;
+    height: 55%;
 }
 
 #sp_content blockquote {
-    font-size: 1.1em;
+    font-size: 17px;
     text-shadow: 0 0 1px #BBB;
     width: 500px;
-    height: 60px;
+    height: 70px;
     margin: auto;
     padding-bottom: 10px;
 }
