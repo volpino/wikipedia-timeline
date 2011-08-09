@@ -25,7 +25,7 @@ var max_rel;
 var line_all;
 var line_all_rel;
 var lowerlimit;
-var timedelta = 15552000;
+var timedelta; // = 15552000;
 var interval = 5;
 var show_tips = false;
 var speeds = ["Really slow", "Slow", "Normal", "Fast", "Really fast"];
@@ -73,7 +73,7 @@ function getStats() {
     var first = new Date(data.first_edit.timestamp*1000);
     var last = new Date(data.last_edit*1000);
     var res = "<div id='more_stats'><h3>More stats for page \""+article_name+"\"</h3>"+
-              "<p>Total revisions: <b>"+data.count+"</b></p>"+
+              "<p><br/>Total revisions: <b>"+data.count+"</b></p>"+
               "<p>Created on "+first.getDay()+"/"+first.getMonth()+"/"+
               first.getFullYear()+" by "+"<a target='_blank' href='http://"+
               lang_id+".wikipedia.org/wiki/User:"+data.first_edit.user+"'>"+
@@ -669,6 +669,7 @@ function getData(seconds) {
             clearMap();
             updateAutoComplete();
             firstedit = data.first_edit.timestamp;
+            timedelta = ((currentDate-firstedit)/100)*5;
             if (seconds) {
                 past_seconds = seconds;
                 $("#slider-id").slider("value", Math.ceil(((past_seconds-firstedit) / (currentDate-firstedit)) * 100));

@@ -363,6 +363,7 @@ a.button:hover {
     margin-left: 10px;
     margin-top: 4px;
     font-size: 0.8em;
+    width: 12%;
 }
 
 #source {
@@ -466,6 +467,10 @@ a {
 
 .content {
     color: #222;
+}
+
+.content div {
+    padding: 10px;
 }
 
 .content div#more_stats {
