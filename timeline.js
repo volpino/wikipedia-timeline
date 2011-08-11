@@ -643,7 +643,9 @@ function startSearch() {
 
 function randomSearch() {
     $("#search_page").fadeOut(1500);
-    $("#loading_page").show(0);
+    $("#loading").fadeIn("fast");
+    $("#loading_page").hide(0);
+
     var lang = $("#lang_select1").val().toUpperCase();
     removeBubbletip();
     $.ajax({
