@@ -642,14 +642,19 @@ function startSearch() {
 }
 
 function randomSearch() {
+    var lang;
+    if ($("#search_page").is(":visible")) {
+        lang = $("#lang_select1").val();
+    }
+    else {
+        lang = main_lang();
+    }
     $("#search_page").fadeOut(1500);
     $("#loading").fadeIn("fast");
     $("#loading_page").hide(0);
-
-    var lang = $("#lang_select1").val().toUpperCase();
     removeBubbletip();
     $.ajax({
-        url: loadUrl + "?url=" + "http://stats.wikimedia.org/EN/TablesWikipediaArticleEdits"+lang+".htm",
+        url: loadUrl + "?url=" + "http://stats.wikimedia.org/EN/TablesWikipediaArticleEdits"+lang.toUpperCase()+".htm",
         success: function(data) {
             var reg = /e\(\d+,\d+,\d+,\d+,".+?","(.+?)"\)/g;
             var match;
@@ -660,8 +665,15 @@ function randomSearch() {
                 }
             }
             var rand = res[Math.floor(Math.random() * res.length)];
-            $("#loading_page").fadeIn("fast");
-            $.History.go("|"+$("#lang_select1").val()+"|"+encodeURI(rand.replace(/\s+/g, "_")));
+            if (rand) {
+                $("#loading_page").fadeIn("fast");
+                $.History.go("|"+lang+"|"+encodeURI(rand.replace(/\s+/g, "_")));
+            }
+            else {
+                $.facebox("<p>We're sorry!</p><p>The page you requested has not been found!</p>");
+                $("#search_page").fadeIn("fast");
+                updateAutoComplete();
+            }
         }
     });
 }
