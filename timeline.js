@@ -701,7 +701,7 @@ function getData(seconds) {
         $("#compare").empty();
         $("<option/>",
             {value: "",
-             text: "..."}
+             text: "select one..."}
         ).appendTo("#compare");
         $.each(data.query.pages, function(i,page) {
             $.each(page.langlinks, function(k, lang) {
