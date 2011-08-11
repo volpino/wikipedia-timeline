@@ -656,7 +656,7 @@ function randomSearch() {
     $.ajax({
         url: loadUrl + "?url=" + "http://stats.wikimedia.org/EN/TablesWikipediaArticleEdits"+lang.toUpperCase()+".htm",
         success: function(data) {
-            var reg = /e\(\d+,\d+,\d+,\d+,".+?","(.+?)"\)/g;
+            var reg = /e\(\d+,\d+,\d+,\d+,"(.+?)",".+?"\)/g;
             var match;
             var res = [];
             while (match = reg.exec(data)) {
