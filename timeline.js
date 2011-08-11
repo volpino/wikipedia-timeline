@@ -664,7 +664,7 @@ function randomSearch() {
                     res.push(match[1]);
                 }
             }
-            var rand = res[Math.floor(Math.random() * res.length)];
+            var rand = unescape(res[Math.floor(Math.random() * res.length)]);
             if (rand) {
                 $("#loading_page").fadeIn("fast");
                 $.History.go("|"+lang+"|"+encodeURI(rand.replace(/\s+/g, "_")));
