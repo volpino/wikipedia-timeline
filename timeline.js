@@ -74,11 +74,11 @@ function getStats() {
     var last = new Date(data.last_edit*1000);
     var res = "<div id='more_stats'><h3>More stats for page \""+article_name+"\"</h3>"+
               "<p><br/>Total revisions: <b>"+data.count+"</b></p>"+
-              "<p>Created on "+first.getDay()+"/"+first.getMonth()+"/"+
+              "<p>Created on "+first.getDay()+"/"+(first.getMonth()+1)+"/"+
               first.getFullYear()+" by "+"<a target='_blank' href='http://"+
               lang_id+".wikipedia.org/wiki/User:"+data.first_edit.user+"'>"+
               data.first_edit.user+"</a></p>"+
-              "<p>Last edit: "+last.getDay()+"/"+last.getMonth()+"/"+
+              "<p>Last edit: "+last.getDay()+"/"+(last.getMonth()+1)+"/"+
               last.getFullYear()+"</p>"+
               "<p>Number of editors: <b>"+data.editor_count+"</b></p>"+
               "<p><br/>Top 10 editors: </p><ul>";
@@ -456,9 +456,18 @@ function change_function(e, ui) {
         map.zoomToExtent(display_layer.getDataExtent(), false);
     }
     if (current_geojson_data) {
-        var d = new Date(past_seconds*1000);
-        $("#shortdesc").html("\""+article_name+"\" @ "+
-                             d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
+        if (lowerlimit) {
+            var d1 = new Date(lowerlimit*1000);
+            var d2 = new Date(past_seconds*1000);
+            $("#shortdesc").html("\""+article_name+"\" @ "+
+                                 d1.getDate()+"/"+(d1.getMonth()+1)+"/"+d1.getFullYear()+"-"+
+                                 d2.getDate()+"/"+(d2.getMonth()+1)+"/"+d2.getFullYear());
+        }
+        else {
+            var d = new Date(past_seconds*1000);
+            $("#shortdesc").html("\""+article_name+"\" @ "+
+                                 d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear());
+        }
         createPlot();
     }
     createGenderPlot();
@@ -515,7 +524,6 @@ function onLoad() {
 
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MouseDefaults());
-    map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
     $("#slider-id").slider({
@@ -692,7 +700,7 @@ function getData(seconds) {
         $("#compare").empty();
         $("<option/>",
             {value: "",
-             text: "..."}
+             text: "select one..."}
         ).appendTo("#compare");
         $.each(data.query.pages, function(i,page) {
             $.each(page.langlinks, function(k, lang) {
@@ -700,7 +708,7 @@ function getData(seconds) {
                 if (lang_name) {
                     $("<option/>",
                       {value: lang.lang + "|" + lang["*"],
-                       text: lang_name + " Wikipedia"}
+                       text: lang_name}
                       ).appendTo("#compare");
                 }
             });
