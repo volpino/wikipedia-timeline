@@ -524,7 +524,6 @@ function onLoad() {
 
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MouseDefaults());
-    map.addControl(new OpenLayers.Control.KeyboardDefaults());
     map.setCenter(new OpenLayers.LonLat(0, 0), 2);
 
     $("#slider-id").slider({
