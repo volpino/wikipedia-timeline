@@ -721,7 +721,7 @@ function getData(seconds) {
                 var lang_name = lang_set[lang.lang];
                 if (lang_name) {
                     $("<option/>",
-                      {value: lang.lang + "|" + lang["*"],
+                      {value: lang.lang + "|" + lang["*"].split("#")[0],
                        text: lang_name}
                       ).appendTo("#compare");
                 }
