@@ -387,7 +387,6 @@ function createGenderPlot() {
             renderer: $.jqplot.CategoryAxisRenderer
           },
           yaxis: {
-            //max: current_gender_data.length,
             tickOptions: {formatString: '%d'},
             min: 0,
             max: (lines.male+lines.female)*2
