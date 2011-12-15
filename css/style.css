@@ -167,6 +167,10 @@ div#loading {
     z-index: 10;
 }
 
+#loading_page_container {
+    min-height: 20%;
+}
+
 #loading_page {
     text-align: center;
     font-size: 0.9em;
