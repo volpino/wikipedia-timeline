@@ -5,7 +5,7 @@
     padding: 0;
     margin: 0;
     z-index: 0;
-    /*position: relative;*/
+    position: relative;
     font-family: 'Tienne', georgia, serif;
     text-shadow: 0 0 1px #777;
 }
@@ -49,59 +49,101 @@ div#search_page {
     color: #FFF;
     z-index: 20;
     display: none;
-    padding-top: 10%;
     overflow:auto;
 }
 
 #search_page p {
-    padding: 3%;
+    /*padding: 3%;*/
 }
 
-#search1 {
-    width: 300px;
-}
-
-div#sp_content {
+#sp_content {
     text-align:center;
-    height: 55%;
+    height: 80%;
+    width: 80%;
+    margin: 8% auto;
+    margin-bottom: 0px;
+}
+
+#title, #page_title {
+    font-size: 3em;
+    text-shadow: 0 0 2px #111;
+    color: #eaa228;
+    /*text-transform: uppercase;*/
+    font-family: "1960s Hippie";
+    font-weight: normal;
+}
+
+#page_title {
+    font-size: 4em;
+    height: 25%;
 }
 
 #sp_content blockquote {
-    font-size: 17px;
+    font-size: 1.1em;
     text-shadow: 0 0 1px #BBB;
-    width: 500px;
-    height: 70px;
+    /*width: 60%;*/
+    /*height: 20%;*/
     margin: auto;
-    padding-bottom: 10px;
+    padding-left: 24%;
+    padding-right: 24%;
+    height: 15%;
+    overflow: hidden;
 }
 
-div#sp_footer {
-    height:20%;
+.bqstart {
+    float: left;
+    font-size: 400%;
+    height: 80%;
+    color: #eaa228;
+    top: -5%;
+}
+
+.bqend {
+    float: right;
+    font-size: 400%;
+    height: 80%;
+    color: #eaa228;
+    top: -1%;
+}
+
+#form_container {
+    height: 17%;
+    padding: 2%;
 }
 
 input, select {
     border: medium none;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 2%;
+    margin-right: 2%;
     background-color: #EEE;
-    height: 30px;
-    vertical-align:middle;
+    vertical-align: middle;
+    display: inline;
+    height: 1.8em;
 }
 
-select {
-    padding-top: 5px;
+#sp_content select {
+    padding-top: 0.5%;
+    height: 30%;
 }
 
 input[type=button] {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+#sp_content input {
+    height: 30%;
 }
 
 #sp_content input[type=button] {
     font-size: 1.1em;
-    margin: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
+    margin: 1%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+#search1 {
+    width: 30%;
 }
 
 div#sp_footer {
@@ -110,6 +152,8 @@ div#sp_footer {
     font-size: 0.8em;
     width: 70%;
     margin: auto;
+    padding-top: 8%;
+    height: 18%;
 }
 
 div#loading {
@@ -123,19 +167,21 @@ div#loading {
     z-index: 10;
 }
 
-#dotdot {
-    position: relative;
+#loading_page {
     text-align: center;
-    top: 15%;
-    padding-right: 2%;
-    font-size: 1.6em;
+    font-size: 0.9em;
+    padding: 2%;
 }
 
-#loading_page {
-    position: relative;
+#loading_container {
+    margin-top: 8%;
+    height: 100%;
+}
+
+#dotdot {
     text-align: center;
-    top: 22%;
-    font-size: 0.9em;
+    padding-right: 2%;
+    font-size: 1.6em;
 }
 
 #loading img {
@@ -146,11 +192,10 @@ div#loading {
     border-radius: 13px 13px 13px 13px;
     box-shadow: 0px 0px 5px rgb(208, 208, 208);
     padding: 5px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
     margin-top: -47px;
     margin-left: -47px;
+    margin: auto;
+    margin-bottom: 50px;
 }
 
 #loading_tip {
@@ -158,70 +203,57 @@ div#loading {
     font-size: 1.0em;
     text-align: center;
     width: 60%;
-    top: 55%;
-    margin-top: 100px;
     margin-left: 20%;
     margin-right: 20%;
-    position: fixed;
     font-size: 0.9em;
 }
 
 div#main_page {
     background-color: #424242;
     height: 100%;
-    width: 93%;
+    width: 94%;
     margin: auto;
     overflow: auto;
 }
 
 div#header {
-    height: 23%;
     width: 40%;
     float: left;
-    padding: 20px;
+    padding-top: 0.5%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 0.5%;
 }
 
 #header a {
     text-decoration: none;
 }
 
-#title, #page_title {
-    margin-bottom: 5px;
-    font-size: 40px;
-    text-shadow: 0 0 2px #111;
-    color: #eaa228;
-    /*text-transform: uppercase;*/
-    font-family: "1960s Hippie";
-    font-weight: normal;
-}
-
-#page_title {
-    font-size: 60px;
-    margin-bottom: 2%;
-}
-
 #title {
     float: left;
-    width: 160px;
+    padding-right: 3%;
+    height: 50%;
 }
 
 #tagline {
-    top: 15px;
+    padding-top: 5%;
+    padding-right: 5%;
     font-size: 0.7em;
     font-style: italic;
+    text-align: center;
 }
 
 #search_box {
     clear: both;
-    height: 100%;
+    height: 50%;
 }
 
 #search_box input, #search_box select {
-    width: 140px;
+    width: 25%;
 }
 
 #search_box input[type=button] {
-    width:59px;
+    width:12%;
 }
 
 #search {
@@ -252,22 +284,20 @@ div#plot {
 div#content {
     clear: both;
     margin: auto;
-    top: -4%;
     height: 63%;
     width: 95%;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 #slider-id {
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 5px;
-    min-height: 10px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    min-height: 2%;
     width: 95%;
 }
 
 div#slider_container {
-    height: 22%;
 }
 
 div#map {
@@ -320,9 +350,9 @@ div#gender_stats {
 }
 
 a.button {
-    padding: 5px 10px 6px;
-    margin-left: 5px;
-    margin-right: 5px;
+    padding: 0.5% 1%;
+    margin-left: 1%;
+    margin-right: 1%;
     color: #fff;
     /*font-weight:bold;*/
     background-color:#666;
@@ -336,6 +366,7 @@ a.button {
     float:right;
     cursor: pointer;
     z-index:1;
+    font-size: 0.9em;
 }
 
 a.button:hover {
@@ -344,7 +375,7 @@ a.button:hover {
 
 #more, #help {
     float: right;
-    margin-left: 20px;
+    margin-left: 3%;
     z-index: 1;
 }
 
@@ -356,8 +387,8 @@ a.button:hover {
 
 #speed {
     float: right;
-    margin-left: 10px;
-    margin-top: 4px;
+    margin-left: 3%;
+    margin-top: 1%;
     font-size: 0.8em;
     width: 12%;
 }
@@ -365,12 +396,12 @@ a.button:hover {
 #source {
     text-align:center;
     font-size: 0.8em;
-    padding: 5px;
+    padding: 1%;
 }
 
 #source a {
-    margin-left:20px;
-    margin-right:20px;
+    margin-left: 4%;
+    margin-right: 4%;
 }
 
 #footer {
@@ -426,7 +457,7 @@ textarea {
 
 .tip p {
     color: #424242;
-    font-size: 13px;
+    font-size: 0.9em;
 }
 
 .tip a {
@@ -472,9 +503,9 @@ a {
 .content div#more_stats {
     background-image: url('../images/1_content.png');
     background-repeat: no-repeat;
-    background-position: 580px 330px;
-    width: 800px;
-    height: 500px;
+    background-position: 95% 95%;
+    width: 95%;
+    height: 95%;
 }
 
 .content * {
@@ -496,22 +527,5 @@ a {
 }
 
 #about h3 {
-    padding-top: 30px;
-}
-
-.bqstart {
-    float: left;
-    font-size: 400%;
-    height: 80%;
-    color: #eaa228;
-    top: -25px;
-}
-
-
-.bqend {
-    float: right;
-    font-size: 400%;
-    height: 80%;
-    color: #eaa228;
-    top: -5px;
+    padding-top: 3%;
 }
