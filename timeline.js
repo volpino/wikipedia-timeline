@@ -721,7 +721,7 @@ function getData(seconds) {
                 if (lang_name) {
                     $("<option/>",
                       {value: lang.lang + "|" + lang["*"].split("#")[0],
-                       text: lang_name}
+                       text: lang.lang + " - " + lang_name}
                       ).appendTo("#compare");
                 }
             });
