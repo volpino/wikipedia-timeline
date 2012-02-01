@@ -990,7 +990,7 @@ $(document).ready(function () {
     $('#compare').change(function() {
         var data = $("#compare").val().split("|");
         if (data) {
-            $.History.go("|"+data[0]+"|"+data[1]);
+            $.History.go("|"+data[0]+"|"+encodeURI(data[1]));
         }
     });
 });
